@@ -21,12 +21,12 @@ export function calculateScenario(base: AssessmentState, mode: 'baseline' | 'sce
   const areaFactor = mode === 'baseline' ? 0.05 : mode === 'scenarioA' ? 0.75 : 0.9;
   const moduleArea = mode === 'baseline' ? base.panel.moduleArea : base.panel.moduleArea;
   const ratedPower = mode === 'baseline' ? 0 : mode === 'scenarioA' ? base.panel.ratedPowerW : 420;
-  const yield = mode === 'baseline' ? 0 : mode === 'scenarioA' ? base.panel.yieldKwhPerKw : 1540;
+  const energyYield = mode === 'baseline' ? 0 : mode === 'scenarioA' ? base.panel.yieldKwhPerKw : 1540;
 
   const adjustedArea = effectiveArea * areaFactor;
   const moduleCount = Math.max(0, Math.floor(adjustedArea / moduleArea));
   const capacityKwp = (moduleCount * ratedPower) / 1000;
-  const annualGeneration = capacityKwp * yield;
+  const annualGeneration = capacityKwp * energyYield;
   const generationToDemandRatio = base.annualDemand > 0 ? (annualGeneration / base.annualDemand) * 100 : 0;
 
   const costEstimate =
