@@ -1,2 +1,9 @@
-# ecopilot-uae
-EcoPilot UAE – intelligent building sustainability and rooftop solar feasibility planner
+# Dependencies
+node_modules
+/.vite
+
+# Build outputs
+dist
+
+# Logs
+npm-debug.log*
