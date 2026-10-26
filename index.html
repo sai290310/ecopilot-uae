@@ -3,29 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="EcoPilot UAE — premium rooftop solar feasibility dashboard" />
-    <title>EcoPilot UAE — Premium Solar Intelligence</title>
+    <meta name="description" content="EcoPilot UAE — premium intelligent sustainability and rooftop solar planner." />
+    <title>EcoPilot UAE</title>
     <style>
       :root {
-        --bg-0: #040b14;
-        --bg-1: #091521;
-        --bg-2: #0d1d2d;
-        --panel: rgba(15, 23, 34, 0.8);
-        --panel-2: rgba(12, 18, 27, 0.95);
-        --panel-3: rgba(8, 14, 22, 0.96);
-        --line: rgba(145, 199, 239, 0.18);
-        --line-strong: rgba(145, 199, 239, 0.38);
+        --bg-0: #040b16;
+        --bg-1: #081623;
+        --bg-2: #0d1a2a;
+        --bg-3: #101d2c;
+        --panel: rgba(12, 19, 29, 0.9);
+        --panel-strong: rgba(9, 15, 23, 0.95);
+        --panel-alt: rgba(17, 27, 39, 0.88);
+        --line: rgba(140, 196, 234, 0.18);
+        --line-strong: rgba(140, 196, 234, 0.38);
         --text: #edf7ff;
-        --muted: #9cb4ce;
-        --soft: #7291b1;
-        --cyan: #69e6ff;
-        --cyan-2: #b5efff;
-        --emerald: #46e5ae;
-        --violet: #9b8dff;
-        --amber: #ffbe59;
+        --muted: #9bb6cd;
+        --soft: #7d90aa;
+        --cyan: #67e0ff;
+        --cyan-2: #bff3ff;
+        --green: #59efb0;
+        --green-soft: #b5f7d7;
+        --violet: #8b89ff;
+        --violet-soft: #c7c0ff;
+        --amber: #f4c76b;
         --red: #ff7d7d;
-        --gold: #f5d178;
-        --shadow: 0 30px 90px rgba(1, 6, 14, 0.72);
+        --shadow: 0 28px 80px rgba(1, 9, 18, 0.7);
       }
 
       * { box-sizing: border-box; }
@@ -36,49 +38,36 @@
         font-family: Inter, "Segoe UI", Arial, sans-serif;
         color: var(--text);
         background:
-          radial-gradient(circle at 12% 10%, rgba(105, 230, 255, 0.12), transparent 28%),
-          radial-gradient(circle at 85% 10%, rgba(155, 141, 255, 0.10), transparent 25%),
-          radial-gradient(circle at 70% 80%, rgba(70, 229, 174, 0.10), transparent 25%),
-          linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, #070d16 100%);
+          radial-gradient(circle at 12% 10%, rgba(103, 224, 255, 0.14), transparent 26%),
+          radial-gradient(circle at 86% 12%, rgba(139, 137, 255, 0.12), transparent 24%),
+          radial-gradient(circle at 70% 80%, rgba(89, 239, 176, 0.12), transparent 20%),
+          linear-gradient(180deg, var(--bg-0), var(--bg-1) 24%, var(--bg-2) 100%);
       }
 
-      .bg-glow {
-        position: fixed;
-        inset: auto;
-        width: 560px;
-        height: 560px;
-        left: -120px;
-        top: 10%;
-        border-radius: 50%;
-        background: rgba(105, 230, 255, 0.12);
-        filter: blur(90px);
-        pointer-events: none;
-      }
-
-      .bg-glow::after {
+      body::before {
         content: "";
-        position: absolute;
-        width: 480px;
-        height: 480px;
-        right: -180px;
-        bottom: -150px;
-        border-radius: 50%;
-        background: rgba(155, 141, 255, 0.15);
-        filter: blur(100px);
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+        background-size: 28px 28px;
+        mask-image: radial-gradient(circle at center, black 55%, transparent 100%);
+        pointer-events: none;
       }
 
       .shell {
         position: relative;
         z-index: 1;
-        width: min(1380px, calc(100vw - 24px));
-        margin: 22px auto;
+        width: min(1460px, calc(100vw - 24px));
+        margin: 20px auto;
         display: grid;
         grid-template-columns: 320px minmax(0, 1fr);
         gap: 20px;
       }
 
       .panel {
-        background: linear-gradient(180deg, rgba(13, 22, 34, 0.96), rgba(9, 15, 24, 0.9));
+        background: linear-gradient(180deg, rgba(14, 21, 31, 0.96), rgba(9, 15, 22, 0.94));
         border: 1px solid var(--line);
         border-radius: 26px;
         box-shadow: var(--shadow);
@@ -105,11 +94,11 @@
 
       .brand-mark {
         position: relative;
-        width: 38px;
-        height: 38px;
+        width: 40px;
+        height: 40px;
         border-radius: 12px;
-        background: linear-gradient(135deg, var(--cyan), var(--emerald), var(--violet));
-        box-shadow: 0 0 25px rgba(105, 230, 255, 0.36);
+        background: linear-gradient(135deg, var(--cyan), var(--green), var(--violet));
+        box-shadow: 0 0 28px rgba(103, 224, 255, 0.32);
       }
 
       .brand-mark::before {
@@ -117,8 +106,8 @@
         position: absolute;
         inset: 8px;
         border-radius: 8px;
-        background: rgba(6, 11, 18, 0.38);
-        border: 1px solid rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.25);
+        background: rgba(5, 11, 18, 0.3);
       }
 
       .brand-name {
@@ -130,28 +119,28 @@
 
       .brand-name strong {
         display: block;
-        font-size: 22px;
-        letter-spacing: 0.04em;
+        margin-top: 2px;
         color: var(--text);
-        margin-top: 3px;
+        font-size: 23px;
+        letter-spacing: 0.05em;
       }
 
-      .pulse {
+      .pill-live {
         display: inline-flex;
         align-items: center;
         gap: 8px;
         padding: 7px 10px;
         border-radius: 999px;
-        border: 1px solid rgba(70, 229, 174, 0.4);
-        background: rgba(70, 229, 174, 0.08);
-        color: var(--emerald);
+        border: 1px solid rgba(89, 239, 176, 0.4);
+        background: rgba(89, 239, 176, 0.08);
+        color: var(--green);
         font-size: 10px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
         font-weight: 700;
       }
 
-      .pulse::before {
+      .pill-live::before {
         content: "";
         width: 7px;
         height: 7px;
@@ -161,25 +150,25 @@
       }
 
       .score-card {
-        margin-top: 12px;
+        margin-top: 8px;
         border: 1px solid var(--line);
         border-radius: 22px;
         padding: 18px 16px 16px;
-        background: linear-gradient(180deg, rgba(9, 16, 25, 0.9), rgba(8, 13, 21, 0.9));
+        background: linear-gradient(180deg, rgba(10, 17, 27, 0.92), rgba(9, 16, 23, 0.95));
       }
 
-      .score-card .label {
+      .label {
         color: var(--soft);
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
         font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
       }
 
       .score-big {
         display: flex;
         align-items: end;
         gap: 10px;
-        margin-top: 12px;
+        margin-top: 14px;
       }
 
       .score-big .num {
@@ -192,14 +181,14 @@
         color: var(--soft);
         text-transform: uppercase;
         letter-spacing: 0.12em;
-        font-size: 11px;
-        padding-bottom: 9px;
+        font-size: 10px;
+        padding-bottom: 8px;
       }
 
       .score-card p {
-        margin: 8px 0 0;
+        margin: 10px 0 0;
         color: var(--muted);
-        line-height: 1.6;
+        line-height: 1.62;
         font-size: 13px;
       }
 
@@ -219,13 +208,13 @@
 
       .mini-card .k {
         color: var(--soft);
+        font-size: 10px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        font-size: 10px;
       }
 
       .mini-card .v {
-        margin-top: 10px;
+        margin-top: 12px;
         font-size: 26px;
         letter-spacing: -0.06em;
         font-weight: 700;
@@ -239,8 +228,8 @@
       }
 
       .mini-card.cyan .v { color: var(--cyan-2); }
-      .mini-card.emerald .v { color: var(--emerald); }
-      .mini-card.violet .v { color: var(--violet); }
+      .mini-card.green .v { color: var(--green-soft); }
+      .mini-card.violet .v { color: var(--violet-soft); }
       .mini-card.amber .v { color: var(--amber); }
 
       .main {
@@ -259,9 +248,9 @@
 
       .crumbs {
         color: var(--soft);
-        font-size: 10px;
-        letter-spacing: 0.18em;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
+        font-size: 10px;
       }
 
       .header-actions {
@@ -270,25 +259,37 @@
         gap: 10px;
       }
 
-      .ghost-btn, .primary-btn {
+      .ghost-btn,
+      .primary-btn,
+      .tab,
+      .action-btn {
+        font: inherit;
+        cursor: pointer;
         border-radius: 12px;
+        transition: transform 0.18s ease, filter 0.18s ease;
+      }
+
+      .ghost-btn,
+      .primary-btn {
+        padding: 9px 12px;
         border: 1px solid var(--line);
         background: rgba(255,255,255,0.02);
         color: var(--text);
-        padding: 9px 12px;
-        font: inherit;
-        cursor: pointer;
-        transition: .2s ease;
-      }
-
-      .ghost-btn:hover, .primary-btn:hover, .tab:hover, .scenario:hover, .button:hover {
-        transform: translateY(-1px);
       }
 
       .primary-btn {
-        border-color: rgba(105, 230, 255, 0.45);
-        background: linear-gradient(180deg, rgba(105, 230, 255, 0.18), rgba(105, 230, 255, 0.08));
+        border-color: rgba(103, 224, 255, 0.4);
+        background: linear-gradient(180deg, rgba(103, 224, 255, 0.18), rgba(103, 224, 255, 0.08));
         color: var(--cyan-2);
+      }
+
+      .ghost-btn:hover,
+      .primary-btn:hover,
+      .tab:hover,
+      .action-btn:hover,
+      .scenario:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.05);
       }
 
       .tabs {
@@ -302,23 +303,21 @@
         border: 1px solid transparent;
         background: transparent;
         color: var(--muted);
-        border-radius: 10px;
         padding: 8px 12px;
-        cursor: pointer;
         font-size: 12px;
+        letter-spacing: 0.04em;
         font-weight: 600;
-        letter-spacing: 0.05em;
       }
 
       .tab.active {
         color: var(--cyan-2);
-        background: rgba(105, 230, 255, 0.08);
-        border-color: rgba(105, 230, 255, 0.28);
+        border-color: rgba(103, 224, 255, 0.3);
+        background: rgba(103, 224, 255, 0.06);
       }
 
       .hero {
         display: grid;
-        grid-template-columns: minmax(0, 1.2fr) 250px;
+        grid-template-columns: minmax(0, 1.25fr) 280px;
         gap: 18px;
         margin-top: 20px;
       }
@@ -327,7 +326,7 @@
         border: 1px solid var(--line);
         border-radius: 22px;
         padding: 18px 18px 16px;
-        background: linear-gradient(180deg, rgba(12, 20, 31, 0.95), rgba(9, 15, 24, 0.95));
+        background: linear-gradient(180deg, rgba(12, 20, 31, 0.96), rgba(9, 15, 24, 0.95));
       }
 
       .eyebrow {
@@ -346,9 +345,9 @@
 
       .lede {
         margin-top: 14px;
+        max-width: 60ch;
         color: var(--muted);
-        max-width: 58ch;
-        line-height: 1.65;
+        line-height: 1.66;
       }
 
       .chips {
@@ -363,12 +362,12 @@
         align-items: center;
         padding: 7px 10px;
         border-radius: 999px;
-        border: 1px solid var(--line-strong);
-        background: rgba(105, 230, 255, 0.04);
+        background: rgba(103, 224, 255, 0.05);
+        border: 1px solid rgba(103, 224, 255, 0.25);
         color: var(--cyan-2);
-        font-size: 11px;
         letter-spacing: 0.08em;
         text-transform: uppercase;
+        font-size: 11px;
       }
 
       .ring-panel {
@@ -376,15 +375,15 @@
         border-radius: 22px;
         padding: 18px 16px 14px;
         background:
-          radial-gradient(circle at 50% 25%, rgba(105, 230, 255, 0.14), transparent 30%),
-          linear-gradient(180deg, rgba(12, 20, 31, 0.97), rgba(9, 15, 24, 0.9));
+          radial-gradient(circle at 50% 24%, rgba(103, 224, 255, 0.14), transparent 28%),
+          linear-gradient(180deg, rgba(12, 20, 31, 0.97), rgba(9, 15, 24, 0.92));
       }
 
       .ring-wrap {
         position: relative;
         width: 170px;
         height: 170px;
-        margin: 6px auto 0;
+        margin: 8px auto 0;
       }
 
       .ring-wrap svg {
@@ -405,18 +404,18 @@
         stroke-width: 14;
         stroke-linecap: round;
         stroke-dasharray: 440;
-        stroke-dashoffset: 95;
+        stroke-dashoffset: 83;
       }
 
       .ring-core {
         position: absolute;
-        inset: 20px;
+        inset: 18px;
         display: grid;
         place-items: center;
         border-radius: 50%;
-        background: rgba(5, 11, 17, 0.88);
+        background: rgba(5, 11, 17, 0.86);
         border: 1px solid var(--line);
-        box-shadow: inset 0 0 20px rgba(105, 230, 255, 0.04);
+        box-shadow: inset 0 0 20px rgba(103, 224, 255, 0.05);
       }
 
       .ring-core strong {
@@ -431,19 +430,18 @@
         font-size: 10px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
-        margin-top: 2px;
       }
 
-      .content-grid {
+      .analysis-grid {
         display: grid;
-        grid-template-columns: 1.15fr 0.85fr;
+        grid-template-columns: 1.2fr 0.8fr;
         gap: 18px;
         margin-top: 18px;
       }
 
       .box {
         border: 1px solid var(--line);
-        background: rgba(12, 18, 28, 0.84);
+        background: rgba(12, 18, 28, 0.86);
         border-radius: 22px;
         padding: 16px 16px 14px;
       }
@@ -459,32 +457,33 @@
       .box-title {
         color: var(--soft);
         letter-spacing: 0.15em;
-        font-size: 11px;
         text-transform: uppercase;
+        font-size: 11px;
       }
 
       .mini-tag {
+        display: inline-flex;
+        align-items: center;
         padding: 6px 8px;
         border-radius: 999px;
-        border: 1px solid rgba(105, 230, 255, 0.3);
-        background: rgba(105, 230, 255, 0.05);
+        background: rgba(103, 224, 255, 0.05);
+        border: 1px solid rgba(103, 224, 255, 0.3);
         color: var(--cyan-2);
-        font-size: 10px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
+        font-size: 10px;
       }
 
       .bars {
         display: grid;
-        gap: 12px;
-        margin-top: 8px;
+        gap: 14px;
       }
 
       .bar-row {
         display: grid;
-        grid-template-columns: 120px minmax(0,1fr) 48px;
-        gap: 10px;
+        grid-template-columns: 120px minmax(0, 1fr) 46px;
         align-items: center;
+        gap: 10px;
         font-size: 12px;
         color: var(--muted);
       }
@@ -493,25 +492,25 @@
         position: relative;
         height: 10px;
         border-radius: 999px;
-        overflow: hidden;
         background: rgba(145, 199, 239, 0.1);
+        overflow: hidden;
       }
 
       .bar-fill {
         position: absolute;
         inset: 0 auto 0 0;
         border-radius: inherit;
-        background: linear-gradient(90deg, var(--cyan), var(--emerald));
-        box-shadow: 0 0 18px rgba(105, 230, 255, 0.24);
+        background: linear-gradient(90deg, var(--cyan), var(--green));
+        box-shadow: 0 0 18px rgba(103, 224, 255, 0.25);
       }
 
-      .bar-fill.violet { background: linear-gradient(90deg, #8b89ff, #a4d6ff); }
+      .bar-fill.violet { background: linear-gradient(90deg, var(--violet), #b4d1ff); }
       .bar-fill.amber { background: linear-gradient(90deg, #f6d56f, #ff9b5e); }
 
       .bar-value {
         color: var(--text);
-        font-weight: 700;
         text-align: right;
+        font-weight: 700;
       }
 
       .scenario-list {
@@ -526,19 +525,19 @@
         padding: 12px 12px 8px;
         background: rgba(8, 13, 21, 0.9);
         cursor: pointer;
-        transition: 180ms ease;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
       }
 
       .scenario.active {
-        border-color: rgba(105, 230, 255, 0.46);
-        box-shadow: inset 0 0 18px rgba(105, 230, 255, 0.04), 0 0 0 1px rgba(105, 230, 255, 0.14);
+        border-color: rgba(103, 224, 255, 0.45);
+        box-shadow: inset 0 0 18px rgba(103, 224, 255, 0.04), 0 0 0 1px rgba(103, 224, 255, 0.12);
       }
 
       .scenario-head {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
       }
 
       .scenario-name {
@@ -572,6 +571,31 @@
         letter-spacing: -0.05em;
       }
 
+      .chart-card {
+        padding: 16px 16px 12px;
+      }
+
+      .chart-box {
+        margin-top: 8px;
+        padding: 12px 10px 4px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: linear-gradient(180deg, rgba(13, 22, 34, 0.9), rgba(8, 13, 20, 0.9));
+      }
+
+      .svg-chart {
+        display: block;
+        width: 100%;
+        height: 220px;
+      }
+
+      .grid-line { stroke: rgba(146, 185, 214, 0.12); }
+      .axis { fill: var(--soft); font-size: 10px; font-family: "SFMono-Regular", Consolas, monospace; }
+      .line-main { fill: none; stroke: url(#lineGrad); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .line-alt { fill: none; stroke: rgba(155, 141, 255, 0.9); stroke-width: 2.2; stroke-dasharray: 7 7; }
+      .point { fill: #7fe4ff; }
+      .point-alt { fill: #b7a8ff; }
+
       .table-wrap {
         margin-top: 18px;
         border: 1px solid var(--line);
@@ -604,7 +628,8 @@
         font-size: 13px;
       }
 
-      td strong, .number {
+      td strong,
+      .number {
         color: var(--text);
         font-weight: 700;
       }
@@ -615,9 +640,9 @@
         gap: 7px;
         padding: 5px 9px;
         border-radius: 999px;
-        background: rgba(70, 229, 174, 0.08);
-        border: 1px solid rgba(70, 229, 174, 0.4);
-        color: var(--emerald);
+        background: rgba(89, 239, 176, 0.08);
+        border: 1px solid rgba(89, 239, 176, 0.4);
+        color: var(--green);
         font-size: 10px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
@@ -632,53 +657,27 @@
         box-shadow: 0 0 12px currentColor;
       }
 
-      .chart-card {
-        padding: 16px 16px 12px;
-      }
-
-      .chart-box {
-        margin-top: 8px;
-        border-radius: 16px;
-        border: 1px solid var(--line);
-        background: linear-gradient(180deg, rgba(13, 22, 34, 0.9), rgba(8, 13, 20, 0.9));
-        padding: 12px 10px 4px;
-      }
-
-      .svg-chart {
-        width: 100%;
-        display: block;
-        height: 220px;
-      }
-
-      .grid-line { stroke: rgba(146, 185, 214, 0.12); }
-      .axis { fill: var(--soft); font-size: 10px; font-family: "SFMono-Regular", Consolas, monospace; }
-      .line-main { fill: none; stroke: url(#lineGrad); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-      .line-alt { fill: none; stroke: rgba(155, 141, 255, 0.9); stroke-width: 2.2; stroke-dasharray: 7 7; }
-      .point { fill: #7fe4ff; }
-      .point-alt { fill: #b7a8ff; }
-
       .bottom-row {
         display: flex;
         justify-content: flex-end;
         margin-top: 18px;
       }
 
-      .button {
+      .action-btn {
         border: 0;
         border-radius: 14px;
-        background: linear-gradient(135deg, var(--cyan), #89d6ff 35%, var(--violet));
-        color: #08151d;
+        background: linear-gradient(135deg, var(--cyan), #8ad3ff 35%, var(--violet));
+        color: #07151d;
         padding: 14px 24px;
         font-weight: 800;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        cursor: pointer;
-        box-shadow: 0 20px 34px rgba(105, 230, 255, 0.26);
+        box-shadow: 0 20px 34px rgba(103, 224, 255, 0.26);
       }
 
       @media (max-width: 1100px) {
         .shell { grid-template-columns: 1fr; }
-        .hero, .content-grid { grid-template-columns: 1fr; }
+        .hero, .analysis-grid { grid-template-columns: 1fr; }
       }
 
       @media (max-width: 560px) {
@@ -689,8 +688,6 @@
     </style>
   </head>
   <body>
-    <div class="bg-glow"></div>
-
     <div class="shell">
       <aside class="panel sidebar">
         <div class="brand-row">
@@ -701,7 +698,7 @@
               <strong>UAE</strong>
             </div>
           </div>
-          <span class="pulse">Live</span>
+          <span class="pill-live">Live</span>
         </div>
 
         <div class="score-card">
@@ -710,7 +707,7 @@
             <div class="num mono">92.6</div>
             <div class="suffix">Score</div>
           </div>
-          <p>High-confidence project viability with strong rooftop utilization and prudent commercial assumptions.</p>
+          <p>High-confidence viability with strong roof utilization, efficient energy capture, and compelling commercial return assumptions.</p>
         </div>
 
         <div class="mini-grid">
@@ -718,7 +715,7 @@
             <div class="k">Generation</div>
             <div class="v mono">816<small>k</small></div>
           </div>
-          <div class="mini-card emerald">
+          <div class="mini-card green">
             <div class="k">Offset</div>
             <div class="v mono">63<small>%</small></div>
           </div>
@@ -755,8 +752,8 @@
             <div class="eyebrow">Building sustainability intelligence</div>
             <h1>Al Noor Demo School</h1>
             <p class="lede">
-              Rooftop solar feasibility model designed for a premium UAE school facility, combining
-              structural constraints, climate-adjusted yield assumptions, and optimized cash-flow performance.
+              Rooftop solar feasibility model for a premium UAE educational facility, balancing structural constraints,
+              climate-adjusted production, and capital efficiency across optimized PV configurations.
             </p>
             <div class="chips">
               <span class="chip">3 floors</span>
@@ -771,9 +768,9 @@
               <svg viewBox="0 0 160 160" aria-hidden="true">
                 <defs>
                   <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#69e6ff" />
-                    <stop offset="55%" stop-color="#73f0c7" />
-                    <stop offset="100%" stop-color="#9080ff" />
+                    <stop offset="0%" stop-color="#67e0ff" />
+                    <stop offset="55%" stop-color="#59efb0" />
+                    <stop offset="100%" stop-color="#8b89ff" />
                   </linearGradient>
                 </defs>
                 <circle class="ring-bg" cx="80" cy="80" r="70"></circle>
@@ -789,7 +786,7 @@
           </div>
         </section>
 
-        <section class="content-grid">
+        <section class="analysis-grid">
           <div class="box">
             <div class="box-header">
               <div class="box-title">Resource fit</div>
@@ -857,8 +854,8 @@
             <svg class="svg-chart" viewBox="0 0 620 220" aria-label="Annual generation chart">
               <defs>
                 <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#69e6ff" />
-                  <stop offset="100%" stop-color="#46e5ae" />
+                  <stop offset="0%" stop-color="#67e0ff" />
+                  <stop offset="100%" stop-color="#59efb0" />
                 </linearGradient>
               </defs>
 
@@ -943,7 +940,7 @@
         </div>
 
         <div class="bottom-row">
-          <button class="button" id="computeBtn">Compute model</button>
+          <button class="action-btn" id="computeBtn">Compute model</button>
         </div>
       </main>
     </div>
@@ -961,7 +958,7 @@
         button.textContent = 'Computing…';
 
         const timer = setInterval(() => {
-          value += 0.4;
+          value += 0.42;
           if (value >= 96.4) {
             value = 96.4;
             clearInterval(timer);
@@ -975,10 +972,10 @@
         }, 80);
       });
 
-      scenarios.forEach((s) => {
-        s.addEventListener('click', () => {
+      scenarios.forEach((scenario) => {
+        scenario.addEventListener('click', () => {
           scenarios.forEach((item) => item.classList.remove('active'));
-          s.classList.add('active');
+          scenario.classList.add('active');
         });
       });
     </script>
