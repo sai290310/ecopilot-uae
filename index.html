@@ -3,111 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="EcoPilot UAE computational modal" />
-    <title>EcoPilot UAE — Computational Modal</title>
+    <meta name="description" content="EcoPilot UAE — premium rooftop solar feasibility dashboard" />
+    <title>EcoPilot UAE — Premium Solar Intelligence</title>
     <style>
       :root {
-        --bg-0: #040915;
-        --bg-1: #0a1220;
-        --bg-2: #0e1b2d;
-        --panel: rgba(15, 23, 34, 0.82);
-        --panel-strong: rgba(12, 19, 30, 0.96);
-        --line: rgba(122, 178, 214, 0.20);
-        --line-strong: rgba(122, 178, 214, 0.40);
-        --cyan: #6fe7ff;
-        --cyan-2: #a4ecff;
-        --emerald: #39e0a9;
-        --violet: #9a86ff;
-        --amber: #ffbd5a;
+        --bg-0: #040b14;
+        --bg-1: #091521;
+        --bg-2: #0d1d2d;
+        --panel: rgba(15, 23, 34, 0.8);
+        --panel-2: rgba(12, 18, 27, 0.95);
+        --panel-3: rgba(8, 14, 22, 0.96);
+        --line: rgba(145, 199, 239, 0.18);
+        --line-strong: rgba(145, 199, 239, 0.38);
+        --text: #edf7ff;
+        --muted: #9cb4ce;
+        --soft: #7291b1;
+        --cyan: #69e6ff;
+        --cyan-2: #b5efff;
+        --emerald: #46e5ae;
+        --violet: #9b8dff;
+        --amber: #ffbe59;
         --red: #ff7d7d;
-        --text: #edf6ff;
-        --muted: #9bb0c8;
-        --soft: #6d819a;
-        --gold: #f8d36a;
-        --shadow: 0 25px 80px rgba(2, 8, 22, 0.75);
+        --gold: #f5d178;
+        --shadow: 0 30px 90px rgba(1, 6, 14, 0.72);
       }
 
       * { box-sizing: border-box; }
-
-      html, body {
-        margin: 0;
-        min-height: 100%;
-        background:
-          radial-gradient(circle at top left, rgba(111, 231, 255, 0.12), transparent 30%),
-          radial-gradient(circle at 80% 15%, rgba(154, 134, 255, 0.11), transparent 26%),
-          radial-gradient(circle at bottom right, rgba(57, 224, 169, 0.10), transparent 28%),
-          linear-gradient(180deg, var(--bg-0), var(--bg-1) 30%, #090d16 100%);
-        font-family: Inter, "Segoe UI", sans-serif;
-        color: var(--text);
-      }
-
+      html { scroll-behavior: smooth; }
       body {
+        margin: 0;
         min-height: 100vh;
-        display: grid;
-        place-items: center;
-        overflow-x: hidden;
-      }
-
-      .bg-glow, .bg-glow::before, .bg-glow::after {
-        position: fixed;
-        content: "";
-        border-radius: 50%;
-        filter: blur(90px);
-        opacity: .45;
-        pointer-events: none;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 12% 10%, rgba(105, 230, 255, 0.12), transparent 28%),
+          radial-gradient(circle at 85% 10%, rgba(155, 141, 255, 0.10), transparent 25%),
+          radial-gradient(circle at 70% 80%, rgba(70, 229, 174, 0.10), transparent 25%),
+          linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, #070d16 100%);
       }
 
       .bg-glow {
-        width: 540px;
-        height: 540px;
+        position: fixed;
+        inset: auto;
+        width: 560px;
+        height: 560px;
+        left: -120px;
         top: 10%;
-        left: 8%;
-        background: rgba(111, 231, 255, 0.18);
-      }
-
-      .bg-glow::before {
-        width: 520px;
-        height: 520px;
-        right: -28%;
-        top: 28%;
-        background: rgba(154, 134, 255, 0.18);
+        border-radius: 50%;
+        background: rgba(105, 230, 255, 0.12);
+        filter: blur(90px);
+        pointer-events: none;
       }
 
       .bg-glow::after {
+        content: "";
+        position: absolute;
         width: 480px;
         height: 480px;
-        bottom: -18%;
-        left: 45%;
-        background: rgba(57, 224, 169, 0.14);
+        right: -180px;
+        bottom: -150px;
+        border-radius: 50%;
+        background: rgba(155, 141, 255, 0.15);
+        filter: blur(100px);
       }
 
-      .app-shell {
+      .shell {
         position: relative;
-        width: min(1280px, calc(100vw - 32px));
-        min-height: min(92vh, 920px);
-        display: grid;
-        grid-template-columns: 360px minmax(0, 1fr);
-        gap: 22px;
         z-index: 1;
+        width: min(1380px, calc(100vw - 24px));
+        margin: 22px auto;
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+        gap: 20px;
       }
 
       .panel {
-        background: linear-gradient(180deg, rgba(15, 23, 34, 0.9), rgba(11, 18, 29, 0.87));
+        background: linear-gradient(180deg, rgba(13, 22, 34, 0.96), rgba(9, 15, 24, 0.9));
         border: 1px solid var(--line);
-        border-radius: 24px;
+        border-radius: 26px;
         box-shadow: var(--shadow);
-        backdrop-filter: blur(16px);
+        backdrop-filter: blur(18px);
       }
 
       .sidebar {
-        padding: 20px 18px 18px;
+        padding: 18px 18px 14px;
       }
 
       .brand-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 18px;
+        gap: 12px;
+        padding-bottom: 18px;
       }
 
       .brand {
@@ -117,54 +104,54 @@
       }
 
       .brand-mark {
-        width: 36px;
-        height: 36px;
+        position: relative;
+        width: 38px;
+        height: 38px;
         border-radius: 12px;
         background: linear-gradient(135deg, var(--cyan), var(--emerald), var(--violet));
-        box-shadow: 0 0 25px rgba(111, 231, 255, 0.45);
-        position: relative;
+        box-shadow: 0 0 25px rgba(105, 230, 255, 0.36);
       }
 
       .brand-mark::before {
         content: "";
         position: absolute;
-        inset: 9px;
+        inset: 8px;
         border-radius: 8px;
-        background: rgba(4, 9, 21, 0.42);
-        border: 1px solid rgba(255,255,255,0.18);
+        background: rgba(6, 11, 18, 0.38);
+        border: 1px solid rgba(255,255,255,0.2);
       }
 
       .brand-name {
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        font-size: 12px;
-        color: var(--muted);
+        font-size: 11px;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
+        color: var(--soft);
       }
 
       .brand-name strong {
         display: block;
         font-size: 22px;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.04em;
         color: var(--text);
+        margin-top: 3px;
       }
 
-      .status-pill {
+      .pulse {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        border: 1px solid rgba(57, 224, 169, 0.45);
-        background: rgba(57, 224, 169, 0.08);
-        color: var(--emerald);
-        border-radius: 999px;
         padding: 7px 10px;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
+        border-radius: 999px;
+        border: 1px solid rgba(70, 229, 174, 0.4);
+        background: rgba(70, 229, 174, 0.08);
+        color: var(--emerald);
+        font-size: 10px;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
+        font-weight: 700;
       }
 
-      .status-pill::before {
+      .pulse::before {
         content: "";
         width: 7px;
         height: 7px;
@@ -173,48 +160,47 @@
         box-shadow: 0 0 12px currentColor;
       }
 
-      .signal-box {
-        position: relative;
-        margin-top: 16px;
-        border-radius: 18px;
-        background: linear-gradient(180deg, rgba(9, 16, 28, 0.8), rgba(9, 14, 23, 0.9));
+      .score-card {
+        margin-top: 12px;
         border: 1px solid var(--line);
-        padding: 16px 16px 18px;
+        border-radius: 22px;
+        padding: 18px 16px 16px;
+        background: linear-gradient(180deg, rgba(9, 16, 25, 0.9), rgba(8, 13, 21, 0.9));
       }
 
-      .signal-box .label {
-        font-size: 11px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
+      .score-card .label {
         color: var(--soft);
-        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 10px;
       }
 
-      .big-score {
+      .score-big {
         display: flex;
         align-items: end;
-        gap: 8px;
-        margin-bottom: 6px;
+        gap: 10px;
+        margin-top: 12px;
       }
 
-      .big-score .num {
-        font-size: 40px;
+      .score-big .num {
+        font-size: 42px;
+        letter-spacing: -0.08em;
         font-weight: 800;
-        letter-spacing: -0.06em;
       }
 
-      .big-score .unit {
-        font-size: 12px;
-        letter-spacing: 0.12em;
+      .score-big .suffix {
         color: var(--soft);
         text-transform: uppercase;
-        margin-bottom: 8px;
+        letter-spacing: 0.12em;
+        font-size: 11px;
+        padding-bottom: 9px;
       }
 
-      .signal-box p {
-        margin: 0;
+      .score-card p {
+        margin: 8px 0 0;
         color: var(--muted);
-        line-height: 1.5;
+        line-height: 1.6;
+        font-size: 13px;
       }
 
       .mini-grid {
@@ -226,252 +212,239 @@
 
       .mini-card {
         padding: 14px 12px 12px;
-        background: rgba(13, 20, 31, 0.78);
         border: 1px solid var(--line);
         border-radius: 16px;
+        background: rgba(12, 18, 28, 0.78);
       }
 
       .mini-card .k {
-        font-size: 11px;
         color: var(--soft);
-        text-transform: uppercase;
         letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 10px;
       }
 
       .mini-card .v {
         margin-top: 10px;
         font-size: 26px;
-        letter-spacing: -0.05em;
+        letter-spacing: -0.06em;
         font-weight: 700;
       }
 
       .mini-card .v small {
         font-size: 12px;
-        color: var(--soft);
         letter-spacing: 0.08em;
         text-transform: uppercase;
+        color: var(--soft);
       }
 
-      .mini-card.emerald .v { color: var(--emerald); }
       .mini-card.cyan .v { color: var(--cyan-2); }
+      .mini-card.emerald .v { color: var(--emerald); }
       .mini-card.violet .v { color: var(--violet); }
       .mini-card.amber .v { color: var(--amber); }
 
-      .main-panel {
-        position: relative;
+      .main {
         padding: 18px 18px 16px;
         overflow: hidden;
       }
 
-      .main-panel::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(111, 231, 255, 0.05), transparent 30%, rgba(154, 134, 255, 0.04));
-        pointer-events: none;
-      }
-
-      .modal-header {
-        position: relative;
-        z-index: 1;
+      .header {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        gap: 16px;
+        align-items: center;
+        gap: 14px;
         padding-bottom: 14px;
         border-bottom: 1px solid var(--line);
       }
 
       .crumbs {
-        font-size: 11px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
         color: var(--soft);
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
       }
 
-      .header-tools {
+      .header-actions {
         display: flex;
         align-items: center;
         gap: 10px;
       }
 
       .ghost-btn, .primary-btn {
-        border-radius: 11px;
+        border-radius: 12px;
         border: 1px solid var(--line);
         background: rgba(255,255,255,0.02);
         color: var(--text);
         padding: 9px 12px;
         font: inherit;
         cursor: pointer;
+        transition: .2s ease;
+      }
+
+      .ghost-btn:hover, .primary-btn:hover, .tab:hover, .scenario:hover, .button:hover {
+        transform: translateY(-1px);
       }
 
       .primary-btn {
-        border-color: rgba(111, 231, 255, 0.45);
-        background: linear-gradient(180deg, rgba(111, 231, 255, 0.15), rgba(111, 231, 255, 0.08));
+        border-color: rgba(105, 230, 255, 0.45);
+        background: linear-gradient(180deg, rgba(105, 230, 255, 0.18), rgba(105, 230, 255, 0.08));
         color: var(--cyan-2);
       }
 
-      .tab-row {
-        position: relative;
-        z-index: 1;
+      .tabs {
         display: flex;
-        align-items: center;
-        gap: 10px;
         flex-wrap: wrap;
+        gap: 10px;
         margin-top: 16px;
       }
 
       .tab {
         border: 1px solid transparent;
+        background: transparent;
+        color: var(--muted);
         border-radius: 10px;
         padding: 8px 12px;
+        cursor: pointer;
         font-size: 12px;
         font-weight: 600;
         letter-spacing: 0.05em;
-        color: var(--muted);
-        cursor: pointer;
-        background: transparent;
       }
 
       .tab.active {
-        background: rgba(111, 231, 255, 0.08);
-        border-color: rgba(111, 231, 255, 0.28);
         color: var(--cyan-2);
+        background: rgba(105, 230, 255, 0.08);
+        border-color: rgba(105, 230, 255, 0.28);
       }
 
-      .hero-grid {
-        position: relative;
-        z-index: 1;
+      .hero {
         display: grid;
-        grid-template-columns: minmax(0, 1.3fr) 240px;
+        grid-template-columns: minmax(0, 1.2fr) 250px;
         gap: 18px;
         margin-top: 20px;
       }
 
-      .project-brief {
-        padding: 20px 18px 16px;
-        border-radius: 20px;
-        background: linear-gradient(180deg, rgba(13, 21, 32, 0.92), rgba(12, 17, 25, 0.92));
+      .hero-copy {
         border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 18px 18px 16px;
+        background: linear-gradient(180deg, rgba(12, 20, 31, 0.95), rgba(9, 15, 24, 0.95));
       }
 
       .eyebrow {
-        font-size: 11px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
         color: var(--soft);
-        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 10px;
       }
 
       h1 {
-        margin: 0;
-        font-size: clamp(30px, 4vw, 52px);
+        margin: 12px 0 0;
+        font-size: clamp(34px, 4vw, 56px);
         line-height: 0.95;
-        letter-spacing: -0.06em;
+        letter-spacing: -0.08em;
       }
 
       .lede {
-        margin-top: 12px;
+        margin-top: 14px;
         color: var(--muted);
-        line-height: 1.6;
         max-width: 58ch;
+        line-height: 1.65;
       }
 
-      .meta-row {
+      .chips {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-top: 18px;
+        margin-top: 16px;
       }
 
       .chip {
-        border: 1px solid var(--line-strong);
-        background: rgba(111, 231, 255, 0.04);
-        color: var(--cyan-2);
-        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
         padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line-strong);
+        background: rgba(105, 230, 255, 0.04);
+        color: var(--cyan-2);
         font-size: 11px;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
-      .score-card {
-        display: grid;
-        place-items: center;
-        padding: 18px 16px 16px;
+      .ring-panel {
         border: 1px solid var(--line);
-        border-radius: 20px;
+        border-radius: 22px;
+        padding: 18px 16px 14px;
         background:
-          radial-gradient(circle at 50% 30%, rgba(111, 231, 255, 0.14), transparent 30%),
-          linear-gradient(180deg, rgba(15, 23, 34, 0.96), rgba(10, 16, 26, 0.84));
+          radial-gradient(circle at 50% 25%, rgba(105, 230, 255, 0.14), transparent 30%),
+          linear-gradient(180deg, rgba(12, 20, 31, 0.97), rgba(9, 15, 24, 0.9));
       }
 
-      .score-ring {
+      .ring-wrap {
         position: relative;
         width: 170px;
         height: 170px;
-        display: grid;
-        place-items: center;
+        margin: 6px auto 0;
       }
 
-      .score-ring svg {
+      .ring-wrap svg {
         width: 100%;
         height: 100%;
         transform: rotate(-90deg);
       }
 
-      .score-ring .ring-bg {
+      .ring-bg {
         fill: none;
-        stroke: rgba(122, 178, 214, 0.18);
+        stroke: rgba(146, 185, 214, 0.18);
         stroke-width: 14;
       }
 
-      .score-ring .ring-progress {
+      .ring-progress {
         fill: none;
-        stroke: url(#chartGlow);
+        stroke: url(#scoreGradient);
         stroke-width: 14;
         stroke-linecap: round;
         stroke-dasharray: 440;
-        stroke-dashoffset: 110;
+        stroke-dashoffset: 95;
       }
 
-      .score-ring .ring-core {
+      .ring-core {
         position: absolute;
-        inset: 18px;
+        inset: 20px;
         display: grid;
         place-items: center;
         border-radius: 50%;
-        background: rgba(7, 12, 20, 0.88);
+        background: rgba(5, 11, 17, 0.88);
         border: 1px solid var(--line);
+        box-shadow: inset 0 0 20px rgba(105, 230, 255, 0.04);
       }
 
-      .score-ring .ring-core strong {
-        font-size: 28px;
-        letter-spacing: -0.06em;
+      .ring-core strong {
+        font-size: 30px;
+        letter-spacing: -0.08em;
       }
 
-      .score-ring .ring-core span {
+      .ring-core span {
         display: block;
-        margin-top: 2px;
-        font-size: 10px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+        text-align: center;
         color: var(--soft);
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-top: 2px;
       }
 
-      .main-grid {
-        position: relative;
-        z-index: 1;
+      .content-grid {
         display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
+        grid-template-columns: 1.15fr 0.85fr;
         gap: 18px;
         margin-top: 18px;
       }
 
       .box {
         border: 1px solid var(--line);
-        background: rgba(12, 18, 29, 0.86);
-        border-radius: 20px;
+        background: rgba(12, 18, 28, 0.84);
+        border-radius: 22px;
         padding: 16px 16px 14px;
       }
 
@@ -480,37 +453,36 @@
         justify-content: space-between;
         align-items: center;
         gap: 10px;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
       }
 
-      .box-header h3 {
-        margin: 0;
-        font-size: 13px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+      .box-title {
         color: var(--soft);
+        letter-spacing: 0.15em;
+        font-size: 11px;
+        text-transform: uppercase;
       }
 
-      .box-header .tag {
+      .mini-tag {
+        padding: 6px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(105, 230, 255, 0.3);
+        background: rgba(105, 230, 255, 0.05);
+        color: var(--cyan-2);
         font-size: 10px;
         letter-spacing: 0.12em;
-        color: var(--cyan);
-        border: 1px solid rgba(111, 231, 255, 0.25);
-        border-radius: 999px;
-        padding: 6px 8px;
-        background: rgba(111, 231, 255, 0.05);
         text-transform: uppercase;
       }
 
       .bars {
         display: grid;
-        gap: 10px;
-        margin-top: 12px;
+        gap: 12px;
+        margin-top: 8px;
       }
 
       .bar-row {
         display: grid;
-        grid-template-columns: 110px minmax(0, 1fr) 52px;
+        grid-template-columns: 120px minmax(0,1fr) 48px;
         gap: 10px;
         align-items: center;
         font-size: 12px;
@@ -518,11 +490,11 @@
       }
 
       .bar-track {
+        position: relative;
         height: 10px;
         border-radius: 999px;
-        background: rgba(122, 178, 214, 0.10);
         overflow: hidden;
-        position: relative;
+        background: rgba(145, 199, 239, 0.1);
       }
 
       .bar-fill {
@@ -530,53 +502,48 @@
         inset: 0 auto 0 0;
         border-radius: inherit;
         background: linear-gradient(90deg, var(--cyan), var(--emerald));
-        box-shadow: 0 0 16px rgba(111, 231, 255, 0.35);
+        box-shadow: 0 0 18px rgba(105, 230, 255, 0.24);
       }
 
-      .bar-fill.violet {
-        background: linear-gradient(90deg, #8e8dff, #a5dbff);
-      }
-
-      .bar-fill.amber {
-        background: linear-gradient(90deg, #f7c969, #ff924f);
-      }
+      .bar-fill.violet { background: linear-gradient(90deg, #8b89ff, #a4d6ff); }
+      .bar-fill.amber { background: linear-gradient(90deg, #f6d56f, #ff9b5e); }
 
       .bar-value {
-        text-align: right;
         color: var(--text);
         font-weight: 700;
+        text-align: right;
       }
 
       .scenario-list {
         display: grid;
         gap: 10px;
-        margin-top: 12px;
+        margin-top: 14px;
       }
 
       .scenario {
         border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 12px 12px 10px;
-        background: rgba(12, 17, 25, 0.85);
+        border-radius: 16px;
+        padding: 12px 12px 8px;
+        background: rgba(8, 13, 21, 0.9);
         cursor: pointer;
         transition: 180ms ease;
       }
 
       .scenario.active {
-        border-color: rgba(111, 231, 255, 0.4);
-        box-shadow: 0 0 0 1px rgba(111, 231, 255, 0.22), inset 0 0 18px rgba(111, 231, 255, 0.03);
+        border-color: rgba(105, 230, 255, 0.46);
+        box-shadow: inset 0 0 18px rgba(105, 230, 255, 0.04), 0 0 0 1px rgba(105, 230, 255, 0.14);
       }
 
       .scenario-head {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
       }
 
       .scenario-name {
         font-weight: 700;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.03em;
       }
 
       .scenario-cost {
@@ -585,24 +552,24 @@
         font-size: 12px;
       }
 
-      .scenario-body {
+      .scenario-meta {
         margin-top: 10px;
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 10px;
+      }
+
+      .scenario-meta div {
+        color: var(--muted);
         font-size: 11px;
       }
 
-      .scenario-body div {
-        color: var(--muted);
-      }
-
-      .scenario-body strong {
+      .scenario-meta strong {
         display: block;
         margin-top: 4px;
+        font-size: 18px;
         color: var(--text);
-        font-size: 17px;
-        letter-spacing: -0.04em;
+        letter-spacing: -0.05em;
       }
 
       .table-wrap {
@@ -610,7 +577,7 @@
         border: 1px solid var(--line);
         border-radius: 18px;
         overflow: hidden;
-        background: rgba(9, 14, 23, 0.84);
+        background: rgba(8, 13, 21, 0.9);
       }
 
       table {
@@ -618,50 +585,45 @@
         border-collapse: collapse;
       }
 
-      thead th {
+      th, td {
+        padding: 12px 14px;
         text-align: left;
-        background: rgba(18, 31, 46, 0.9);
-        color: var(--soft);
-        font-size: 11px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        padding: 12px 14px;
-      }
-
-      tbody td {
-        padding: 12px 14px;
         border-top: 1px solid var(--line);
+      }
+
+      th {
+        background: rgba(18, 30, 43, 0.9);
+        color: var(--soft);
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      td {
         color: var(--muted);
+        font-size: 13px;
       }
 
-      tbody tr:hover {
-        background: rgba(111, 231, 255, 0.03);
-      }
-
-      .mono {
-        font-family: "SFMono-Regular", Consolas, monospace;
-      }
-
-      .number {
+      td strong, .number {
         color: var(--text);
         font-weight: 700;
       }
 
-      .status {
+      .status-pill {
         display: inline-flex;
         align-items: center;
         gap: 7px;
-        background: rgba(57, 224, 169, 0.08);
-        color: var(--emerald);
-        border: 1px solid rgba(57, 224, 169, 0.35);
-        border-radius: 999px;
         padding: 5px 9px;
-        font-size: 11px;
+        border-radius: 999px;
+        background: rgba(70, 229, 174, 0.08);
+        border: 1px solid rgba(70, 229, 174, 0.4);
+        color: var(--emerald);
+        font-size: 10px;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
       }
 
-      .status::before {
+      .status-pill::before {
         content: "";
         width: 6px;
         height: 6px;
@@ -670,76 +632,85 @@
         box-shadow: 0 0 12px currentColor;
       }
 
-      .compute-row {
-        position: relative;
-        z-index: 1;
+      .chart-card {
+        padding: 16px 16px 12px;
+      }
+
+      .chart-box {
+        margin-top: 8px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(13, 22, 34, 0.9), rgba(8, 13, 20, 0.9));
+        padding: 12px 10px 4px;
+      }
+
+      .svg-chart {
+        width: 100%;
+        display: block;
+        height: 220px;
+      }
+
+      .grid-line { stroke: rgba(146, 185, 214, 0.12); }
+      .axis { fill: var(--soft); font-size: 10px; font-family: "SFMono-Regular", Consolas, monospace; }
+      .line-main { fill: none; stroke: url(#lineGrad); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .line-alt { fill: none; stroke: rgba(155, 141, 255, 0.9); stroke-width: 2.2; stroke-dasharray: 7 7; }
+      .point { fill: #7fe4ff; }
+      .point-alt { fill: #b7a8ff; }
+
+      .bottom-row {
         display: flex;
         justify-content: flex-end;
         margin-top: 18px;
       }
 
-      .compute-btn {
+      .button {
         border: 0;
         border-radius: 14px;
-        padding: 14px 26px;
-        background: linear-gradient(135deg, var(--cyan), #88d5ff 35%, var(--violet));
-        color: #08131d;
+        background: linear-gradient(135deg, var(--cyan), #89d6ff 35%, var(--violet));
+        color: #08151d;
+        padding: 14px 24px;
         font-weight: 800;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        box-shadow: 0 18px 36px rgba(111, 231, 255, 0.22);
         cursor: pointer;
+        box-shadow: 0 20px 34px rgba(105, 230, 255, 0.26);
       }
 
-      @media (max-width: 980px) {
-        .app-shell {
-          grid-template-columns: 1fr;
-        }
-
-        .hero-grid, .main-grid {
-          grid-template-columns: 1fr;
-        }
+      @media (max-width: 1100px) {
+        .shell { grid-template-columns: 1fr; }
+        .hero, .content-grid { grid-template-columns: 1fr; }
       }
 
       @media (max-width: 560px) {
-        .mini-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .bar-row {
-          grid-template-columns: 90px minmax(0, 1fr) 42px;
-        }
-
-        .modal-header {
-          align-items: flex-start;
-          flex-direction: column;
-        }
+        .mini-grid { grid-template-columns: 1fr 1fr; }
+        .bar-row { grid-template-columns: 100px minmax(0,1fr) 42px; }
+        .header { flex-direction: column; align-items: flex-start; }
       }
     </style>
   </head>
   <body>
     <div class="bg-glow"></div>
 
-    <main class="app-shell">
+    <div class="shell">
       <aside class="panel sidebar">
         <div class="brand-row">
           <div class="brand">
-            <div class="brand-mark"></div>
+            <div class="brand-mark" aria-hidden="true"></div>
             <div class="brand-name">
               EcoPilot
               <strong>UAE</strong>
             </div>
           </div>
-          <span class="status-pill">Live model</span>
+          <span class="pulse">Live</span>
         </div>
 
-        <div class="signal-box">
+        <div class="score-card">
           <div class="label">Portfolio signal</div>
-          <div class="big-score">
+          <div class="score-big">
             <div class="num mono">92.6</div>
-            <div class="unit">score</div>
+            <div class="suffix">Score</div>
           </div>
-          <p>High-confidence solar viability for the current roof envelope and tariff assumptions.</p>
+          <p>High-confidence project viability with strong rooftop utilization and prudent commercial assumptions.</p>
         </div>
 
         <div class="mini-grid">
@@ -762,16 +733,16 @@
         </div>
       </aside>
 
-      <section class="panel main-panel">
-        <header class="modal-header">
+      <main class="panel main">
+        <header class="header">
           <div class="crumbs">Assessment / Dubai / School / Rooftop PV</div>
-          <div class="header-tools">
+          <div class="header-actions">
             <button class="ghost-btn">Share</button>
             <button class="primary-btn">Export PDF</button>
           </div>
         </header>
 
-        <div class="tab-row">
+        <div class="tabs">
           <button class="tab active">Overview</button>
           <button class="tab">Roof plan</button>
           <button class="tab">Scenario delta</button>
@@ -779,15 +750,15 @@
           <button class="tab">Report</button>
         </div>
 
-        <div class="hero-grid">
-          <div class="project-brief">
+        <section class="hero">
+          <div class="hero-copy">
             <div class="eyebrow">Building sustainability intelligence</div>
             <h1>Al Noor Demo School</h1>
             <p class="lede">
-              Rooftop feasibility model with high-resolution demand matching, PV fit optimization,
-              and financial performance tuned for Dubai climate assumptions and structural constraints.
+              Rooftop solar feasibility model designed for a premium UAE school facility, combining
+              structural constraints, climate-adjusted yield assumptions, and optimized cash-flow performance.
             </p>
-            <div class="meta-row">
+            <div class="chips">
               <span class="chip">3 floors</span>
               <span class="chip">48m × 26m roof</span>
               <span class="chip">AED 0.44 / kWh</span>
@@ -795,14 +766,14 @@
             </div>
           </div>
 
-          <div class="score-card">
-            <div class="score-ring" aria-label="Assessment score 92.6 percent">
+          <div class="ring-panel">
+            <div class="ring-wrap" aria-label="Project viability score 92.6 percent">
               <svg viewBox="0 0 160 160" aria-hidden="true">
                 <defs>
-                  <linearGradient id="chartGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#6fe7ff" />
-                    <stop offset="55%" stop-color="#7ff8d3" />
-                    <stop offset="100%" stop-color="#9a86ff" />
+                  <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#69e6ff" />
+                    <stop offset="55%" stop-color="#73f0c7" />
+                    <stop offset="100%" stop-color="#9080ff" />
                   </linearGradient>
                 </defs>
                 <circle class="ring-bg" cx="80" cy="80" r="70"></circle>
@@ -810,19 +781,19 @@
               </svg>
               <div class="ring-core">
                 <div>
-                  <strong>92.6</strong>
+                  <strong class="mono">92.6</strong>
                   <span>Grade</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div class="main-grid">
+        <section class="content-grid">
           <div class="box">
             <div class="box-header">
-              <h3>Resource fit</h3>
-              <span class="tag">PV optimization</span>
+              <div class="box-title">Resource fit</div>
+              <span class="mini-tag">PV optimization</span>
             </div>
 
             <div class="bars">
@@ -846,29 +817,19 @@
 
           <div class="box">
             <div class="box-header">
-              <h3>Scenarios</h3>
-              <span class="tag">A/B</span>
+              <div class="box-title">Scenarios</div>
+              <span class="mini-tag">A/B</span>
             </div>
-
             <div class="scenario-list">
               <div class="scenario active" data-scenario="A">
                 <div class="scenario-head">
                   <div class="scenario-name">Scenario A</div>
                   <div class="scenario-cost">AED 1.12M</div>
                 </div>
-                <div class="scenario-body">
-                  <div>
-                    Yield
-                    <strong>816k</strong>
-                  </div>
-                  <div>
-                    kWp
-                    <strong>193</strong>
-                  </div>
-                  <div>
-                    Payback
-                    <strong>5.4y</strong>
-                  </div>
+                <div class="scenario-meta">
+                  <div>Yield<strong>816k</strong></div>
+                  <div>kWp<strong>193</strong></div>
+                  <div>Payback<strong>5.4y</strong></div>
                 </div>
               </div>
 
@@ -877,22 +838,63 @@
                   <div class="scenario-name">Scenario B</div>
                   <div class="scenario-cost">AED 1.18M</div>
                 </div>
-                <div class="scenario-body">
-                  <div>
-                    Yield
-                    <strong>804k</strong>
-                  </div>
-                  <div>
-                    kWp
-                    <strong>188</strong>
-                  </div>
-                  <div>
-                    Payback
-                    <strong>5.9y</strong>
-                  </div>
+                <div class="scenario-meta">
+                  <div>Yield<strong>804k</strong></div>
+                  <div>kWp<strong>188</strong></div>
+                  <div>Payback<strong>5.9y</strong></div>
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        <div class="box chart-card">
+          <div class="box-header">
+            <div class="box-title">Generation profile</div>
+            <span class="mini-tag">Annual</span>
+          </div>
+          <div class="chart-box">
+            <svg class="svg-chart" viewBox="0 0 620 220" aria-label="Annual generation chart">
+              <defs>
+                <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#69e6ff" />
+                  <stop offset="100%" stop-color="#46e5ae" />
+                </linearGradient>
+              </defs>
+
+              <g>
+                <line class="grid-line" x1="40" y1="30" x2="590" y2="30" />
+                <line class="grid-line" x1="40" y1="80" x2="590" y2="80" />
+                <line class="grid-line" x1="40" y1="130" x2="590" y2="130" />
+                <line class="grid-line" x1="40" y1="180" x2="590" y2="180" />
+              </g>
+
+              <g>
+                <text class="axis" x="30" y="185">0</text>
+                <text class="axis" x="30" y="135">250</text>
+                <text class="axis" x="30" y="85">500</text>
+                <text class="axis" x="30" y="35">750</text>
+              </g>
+
+              <g>
+                <text class="axis" x="54" y="210">Jan</text>
+                <text class="axis" x="146" y="210">Feb</text>
+                <text class="axis" x="238" y="210">Mar</text>
+                <text class="axis" x="330" y="210">Apr</text>
+                <text class="axis" x="422" y="210">May</text>
+                <text class="axis" x="514" y="210">Jun</text>
+              </g>
+
+              <path class="line-alt" d="M40 180 C110 170, 140 155, 190 142 S290 110, 330 95 S420 80, 480 72 S550 64, 590 54" />
+              <path class="line-main" d="M40 185 C110 170, 140 152, 190 136 S290 100, 330 88 S420 62, 480 52 S550 42, 590 30" />
+
+              <g>
+                <circle class="point" cx="330" cy="88" r="5" />
+                <circle class="point" cx="480" cy="52" r="5" />
+                <circle class="point-alt" cx="190" cy="136" r="4" />
+                <circle class="point-alt" cx="590" cy="54" r="4" />
+              </g>
+            </svg>
           </div>
         </div>
 
@@ -910,70 +912,73 @@
             <tbody>
               <tr>
                 <td>Annual generation</td>
-                <td class="mono">—</td>
-                <td class="mono number">816,400 kWh</td>
-                <td class="mono number">804,100 kWh</td>
-                <td><span class="status">Optimized</span></td>
+                <td>—</td>
+                <td><strong class="mono number">816,400 kWh</strong></td>
+                <td><strong class="mono number">804,100 kWh</strong></td>
+                <td><span class="status-pill">Optimized</span></td>
               </tr>
               <tr>
                 <td>Installed capacity</td>
                 <td class="mono">0 kWp</td>
-                <td class="mono number">193.4 kWp</td>
-                <td class="mono number">188.2 kWp</td>
-                <td><span class="status">Valid</span></td>
+                <td><strong class="mono number">193.4 kWp</strong></td>
+                <td><strong class="mono number">188.2 kWp</strong></td>
+                <td><span class="status-pill">Valid</span></td>
               </tr>
               <tr>
                 <td>Simple payback</td>
-                <td class="mono">—</td>
-                <td class="mono number">5.4 years</td>
-                <td class="mono number">5.9 years</td>
-                <td><span class="status">Healthy</span></td>
+                <td>—</td>
+                <td><strong class="mono number">5.4 years</strong></td>
+                <td><strong class="mono number">5.9 years</strong></td>
+                <td><span class="status-pill">Healthy</span></td>
               </tr>
               <tr>
                 <td>CO₂ avoidance</td>
-                <td class="mono">—</td>
-                <td class="mono number">539 tCO₂e</td>
-                <td class="mono number">530 tCO₂e</td>
-                <td><span class="status">High</span></td>
+                <td>—</td>
+                <td><strong class="mono number">539 tCO₂e</strong></td>
+                <td><strong class="mono number">530 tCO₂e</strong></td>
+                <td><span class="status-pill">High</span></td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="compute-row">
-          <button class="compute-btn" id="computeBtn">Compute model</button>
+        <div class="bottom-row">
+          <button class="button" id="computeBtn">Compute model</button>
         </div>
-      </section>
-    </main>
+      </main>
+    </div>
 
     <script>
-      const btn = document.getElementById('computeBtn');
-      const ring = document.querySelector('.ring-progress');
+      const button = document.getElementById('computeBtn');
+      const progress = document.querySelector('.ring-progress');
       const scenarios = document.querySelectorAll('.scenario');
+      const scoreValue = document.querySelector('.ring-core strong');
 
-      let active = 92.6;
+      let value = 92.6;
 
-      btn.addEventListener('click', () => {
-        btn.disabled = true;
-        btn.textContent = 'Computing…';
-        const interval = setInterval(() => {
-          active += 0.4;
-          if (active >= 96.4) {
-            active = 96.4;
-            clearInterval(interval);
-            btn.textContent = 'Model ready';
-            btn.disabled = false;
+      button.addEventListener('click', () => {
+        button.disabled = true;
+        button.textContent = 'Computing…';
+
+        const timer = setInterval(() => {
+          value += 0.4;
+          if (value >= 96.4) {
+            value = 96.4;
+            clearInterval(timer);
+            button.textContent = 'Model ready';
+            button.disabled = false;
           }
-          const dash = 440 - (active / 100) * 440;
-          ring.style.strokeDashoffset = String(dash);
-          document.querySelector('.ring-core strong').textContent = active.toFixed(1);
+
+          const dash = 440 - (value / 100) * 440;
+          progress.style.strokeDashoffset = String(dash);
+          scoreValue.textContent = value.toFixed(1);
         }, 80);
       });
 
-      scenarios.forEach((el) => {
-        el.addEventListener('click', () => {
-          scenarios.forEach(s => s.classList.remove('active'));
-          el.classList.add('active');
+      scenarios.forEach((s) => {
+        s.addEventListener('click', () => {
+          scenarios.forEach((item) => item.classList.remove('active'));
+          s.classList.add('active');
         });
       });
     </script>
