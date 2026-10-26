@@ -1,13 +1,388 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="EcoPilot UAE — building sustainability and rooftop solar feasibility workspace." />
-    <title>EcoPilot UAE</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>EcoPilot UAE</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* EcoPilot UAE: a single committed dark look ("environmental simulation console"). Report pages use their own light print palette. */
+:root {
+  color-scheme: dark;
+  --bg: #05080f;
+  --bg-2: #0a1222;
+  --panel: #0e1828;
+  --panel-2: #132036;
+  --line: rgba(120, 200, 235, 0.16);
+  --line-strong: rgba(120, 200, 235, 0.34);
+  --fg: #e6eef8;
+  --fg-2: #a9b8cc;
+  --fg-3: #74859c;
+  --cyan: #5fd4f2;
+  --ice: #bfe9fa;
+  --violet: #a58cf0;
+  --emerald: #3fd39a;
+  --amber: #f2b752;
+  --red: #ff7b72;
+  --focus: #9ff3ff;
+  --r: 10px;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display: "Chakra Petch", "IBM Plex Sans", system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: auto; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(95, 212, 242, 0.08), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(165, 140, 240, 0.07), transparent 60%),
+    var(--bg);
+  background-image: radial-gradient(rgba(120, 200, 235, 0.06) 1px, transparent 1px), radial-gradient(900px 500px at -10% 10%, rgba(165, 140, 240, 0.07), transparent 60%);
+  background-size: 22px 22px, auto;
+  color: var(--fg);
+  font: 14px/1.5 var(--sans);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  overflow-x: hidden;
+}
+#root { min-width: 0; }
+h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
+h1 { font: 600 clamp(22px, 3vw, 30px)/1.2 var(--display); letter-spacing: 0.01em; }
+h2 { font: 600 17px/1.3 var(--display); letter-spacing: 0.02em; }
+h3.sub { font: 600 12px/1.3 var(--sans); color: var(--fg-2); text-transform: uppercase; letter-spacing: 0.08em; margin: 16px 0 8px; }
+p { margin: 0 0 8px; }
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.tnum { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); font-size: 12px; }
+.muted { color: var(--fg-2); }
+.small { font-size: 12px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.break { word-break: break-all; }
+.eyebrow { font: 600 11px/1.2 var(--mono); color: var(--cyan); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 6px; }
+.lede { color: var(--fg-2); max-width: 70ch; margin-top: 8px; }
+.hint { color: var(--fg-3); font-size: 12px; margin: 6px 0 0; }
+.err { color: var(--red); font-size: 12.5px; margin: 6px 0 0; }
+.ok-line { color: var(--emerald); }
+.warn-t { color: var(--amber); }
+.notice { background: rgba(242, 183, 82, 0.08); border: 1px solid rgba(242, 183, 82, 0.35); border-radius: 8px; padding: 10px 12px; color: var(--fg); margin: 10px 0; }
+.notice-bad { background: rgba(255, 123, 114, 0.08); border-color: rgba(255, 123, 114, 0.4); }
+.notice a, .notice button.link { font-weight: 600; }
+.link { background: none; border: 0; padding: 0; color: var(--cyan); font: inherit; cursor: pointer; text-decoration: underline; }
+
+/* shell */
+.shell { min-height: 100vh; display: flex; flex-direction: column; }
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 10px 0; border-bottom: 1px solid var(--line);
+  background: rgba(5, 8, 15, 0.86); backdrop-filter: blur(10px);
+}
+.brand { display: flex; align-items: center; gap: 10px; color: var(--fg); }
+.brand:hover { text-decoration: none; }
+.brand-mark { width: 28px; height: 28px; border-radius: 8px; background: conic-gradient(from 200deg, var(--cyan), var(--emerald), var(--violet), var(--cyan)); box-shadow: 0 0 18px rgba(95, 212, 242, 0.35); }
+.brand-n { display: block; font: 600 15px/1.1 var(--display); letter-spacing: 0.04em; }
+.brand-s { display: block; font-size: 11px; color: var(--fg-3); }
+.nav { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; flex-wrap: wrap; }
+.nav a { display: block; padding: 7px 11px; border-radius: 8px; color: var(--fg-2); border: 1px solid transparent; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+.nav a:hover { color: var(--fg); background: rgba(120, 200, 235, 0.08); text-decoration: none; }
+.nav a.on { color: var(--ice); background: rgba(95, 212, 242, 0.12); border-color: var(--line-strong); }
+.topbar-r { margin-left: auto; }
+.chip { font: 500 12px/1 var(--mono); padding: 7px 10px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--ice); background: rgba(95, 212, 242, 0.06); }
+.demo-bar { margin-top: 12px; padding: 9px 14px; border-radius: 8px; background: rgba(165, 140, 240, 0.12); border: 1px solid rgba(165, 140, 240, 0.4); font-size: 13px; }
+.subtabs { display: flex; gap: 4px; margin-top: 14px; border-bottom: 1px solid var(--line); }
+.subtabs a { padding: 9px 14px; color: var(--fg-2); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.subtabs a.on { color: var(--ice); border-bottom-color: var(--cyan); }
+.subtabs a:hover { text-decoration: none; color: var(--fg); }
+.page { padding-block: 20px 28px; min-width: 0; animation: enter 0.35s ease both; }
+@keyframes enter { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.foot { border-top: 1px solid var(--line); color: var(--fg-3); font-size: 12px; padding-block: 14px 24px; }
+.stack { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.row-wrap { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.page-h { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.page-h-r { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px; min-width: 0; }
+.grid-2 > * { min-width: 0; }
+.wide-left { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+@media (max-width: 900px) { .wide-left { grid-template-columns: 1fr; } }
+
+/* panels */
+.panel { background: linear-gradient(180deg, var(--panel-2), var(--panel)); border: 1px solid var(--line); border-radius: var(--r); box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 12px 30px rgba(0,0,0,0.25); min-width: 0; }
+.panel-h { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 14px 16px 0; flex-wrap: wrap; }
+.panel-b { padding: 12px 16px 16px; min-width: 0; }
+.panel-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* buttons, inputs */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--line-strong); background: rgba(95, 212, 242, 0.08); color: var(--ice); font: 500 13px/1.2 var(--sans); cursor: pointer; transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.1s; }
+.btn:hover:not(:disabled) { background: rgba(95, 212, 242, 0.16); box-shadow: 0 0 0 3px rgba(95, 212, 242, 0.08); }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-sm { min-height: 32px; padding: 5px 10px; font-size: 12.5px; }
+.btn-primary { background: linear-gradient(180deg, rgba(95,212,242,0.9), rgba(60,170,210,0.9)); color: #03121a; border-color: transparent; font-weight: 600; }
+.btn-primary:hover:not(:disabled) { background: linear-gradient(180deg, #8fe6fb, #5fd4f2); }
+.btn-ghost { background: transparent; color: var(--fg-2); border-color: var(--line); }
+.btn-danger { background: rgba(255,123,114,0.18); border-color: rgba(255,123,114,0.6); color: #ffd6d2; }
+.input { width: 100%; min-height: 38px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-2); color: var(--fg); font: 14px var(--sans); }
+.input:focus { border-color: var(--line-strong); outline: 2px solid var(--focus); outline-offset: 1px; }
+.input-sm { min-height: 32px; width: auto; padding: 4px 8px; font-size: 13px; }
+.input-bad { border-color: var(--red); }
+textarea.input { resize: vertical; }
+.numwrap { position: relative; display: flex; align-items: center; width: 100%; }
+.numwrap .input { padding-right: 58px; }
+.unit { position: absolute; right: 10px; font: 11.5px var(--mono); color: var(--fg-3); pointer-events: none; }
+.seg { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0; border: 1px solid var(--line-strong); border-radius: 9px; padding: 3px; background: var(--bg-2); }
+.seg button { border: 0; background: transparent; color: var(--fg-2); padding: 6px 12px; border-radius: 6px; font: 500 13px var(--sans); cursor: pointer; }
+.seg button.on, .seg button[aria-checked="true"] { background: rgba(95,212,242,0.18); color: var(--ice); }
+.seg .hint { margin-left: 10px; }
+.inline { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--fg-2); }
+.inline .numwrap { width: 120px; }
+
+/* forms */
+.form { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.form-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.form-tight { gap: 10px; }
+.field { min-width: 0; }
+.field-l { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.field-l label { font-weight: 500; color: var(--fg); font-size: 13px; }
+.field-err .input { border-color: var(--red); }
+select.input { appearance: auto; }
+
+/* provenance */
+.prov { font: 500 10.5px/1 var(--mono); padding: 3px 6px; border-radius: 5px; letter-spacing: 0.02em; white-space: nowrap; }
+.prov-user { background: rgba(191,233,250,0.12); color: var(--ice); }
+.prov-model { background: rgba(165,140,240,0.16); color: #d6c9ff; }
+.prov-calculated { background: rgba(63,211,154,0.14); color: #9ff0cf; }
+.prov-external { background: rgba(95,212,242,0.14); color: var(--cyan); }
+.prov-illustrative { background: rgba(242,183,82,0.15); color: #ffd98f; }
+.prov-unknown { background: rgba(255,123,114,0.14); color: #ffc2bd; }
+
+/* pills */
+.pill { display: inline-flex; align-items: center; gap: 6px; font: 500 11.5px/1 var(--mono); padding: 5px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+.pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.pill-ok { color: var(--emerald); border-color: rgba(63,211,154,0.45); background: rgba(63,211,154,0.08); }
+.pill-warn { color: var(--amber); border-color: rgba(242,183,82,0.5); background: rgba(242,183,82,0.08); }
+.pill-bad { color: var(--red); border-color: rgba(255,123,114,0.55); background: rgba(255,123,114,0.08); }
+.pill-idle { color: var(--fg-2); border-color: var(--line); background: transparent; }
+.pill-info { color: var(--violet); border-color: rgba(165,140,240,0.5); background: rgba(165,140,240,0.08); }
+
+/* hero, stages, metrics */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: center; padding: 22px; border-radius: 14px; border: 1px solid var(--line-strong); background: radial-gradient(700px 300px at 0% 0%, rgba(95,212,242,0.12), transparent 70%), linear-gradient(180deg, var(--panel-2), var(--panel)); }
+.hero h1 { margin-bottom: 4px; }
+.hero-side { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; } .hero-side { align-items: flex-start; } }
+.ring { width: 118px; height: 118px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--emerald) calc(var(--p) * 1%), rgba(120,200,235,0.12) 0); position: relative; }
+.ring::before { content: ""; position: absolute; inset: 9px; border-radius: 50%; background: var(--panel); }
+.ring span { position: relative; font: 600 22px var(--display); color: var(--fg); }
+.ring-l { font-size: 12px; color: var(--fg-2); }
+.review-box { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg-2); display: flex; flex-direction: column; gap: 6px; }
+.review-t { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-3); }
+.review-btn { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.row-wrap .btn { flex-shrink: 0; }
+.hero .row-wrap { margin-top: 14px; }
+.lede + .row-wrap { margin-top: 14px; }
+.stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+.stage { display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: var(--r); border: 1px solid var(--line); background: var(--panel); color: var(--fg); transition: border-color 0.2s, transform 0.2s; }
+.stage:hover { border-color: var(--line-strong); transform: translateY(-1px); text-decoration: none; }
+.stage-h { display: flex; justify-content: space-between; gap: 8px; align-items: center; flex-wrap: wrap; }
+.stage-l { font-weight: 600; }
+.stage-d { color: var(--fg-2); font-size: 12.5px; margin: 0; min-height: 2.6em; }
+.bar { height: 6px; border-radius: 99px; background: rgba(120,200,235,0.12); overflow: hidden; }
+.bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--cyan), var(--emerald)); border-radius: inherit; transition: width 0.5s ease; }
+.stage-blocked .bar span { background: var(--red); }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; }
+.metrics-sm { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 12px; }
+.metric { padding: 14px; border-radius: var(--r); border: 1px solid var(--line); background: linear-gradient(180deg, var(--panel-2), var(--panel)); min-width: 0; }
+.metric-l { color: var(--fg-2); font-size: 12px; margin-bottom: 6px; }
+.metric-v { font: 600 24px/1.1 var(--display); color: var(--ice); display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.metric-u { font: 12px var(--mono); color: var(--fg-3); }
+.metric-f { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+.metric-n { font-size: 11.5px; color: var(--fg-3); }
+
+/* lists, tables, kv */
+.list { margin: 0; padding-left: 18px; color: var(--fg-2); }
+.list li { margin-bottom: 6px; }
+.list-warn li { color: #ffd98f; }
+.list a { color: var(--ice); }
+.formulas { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.formulas code { font: 12px/1.5 var(--mono); color: var(--ice); background: var(--bg-2); padding: 6px 8px; border-radius: 6px; display: block; overflow-x: auto; }
+.kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 0 0 10px; font-size: 13px; }
+.kv dt { color: var(--fg-3); }
+.kv dd { margin: 0; color: var(--fg); min-width: 0; }
+.tbl-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--line); }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl th, .tbl td { padding: 9px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.tbl thead th { color: var(--fg-2); font-weight: 600; background: var(--bg-2); font-size: 12px; }
+.tbl caption { text-align: left; padding: 0 0 8px; color: var(--fg-2); }
+.tbl tbody th { font-weight: 500; color: var(--fg-2); }
+.tbl .num { text-align: right; }
+.tbl-sm th, .tbl-sm td { padding: 6px 8px; }
+.tbl tbody tr:hover { background: rgba(95,212,242,0.04); }
+.recs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.rec { display: grid; grid-template-columns: 76px 1fr; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-2); }
+.rec-k { font: 600 10.5px var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-3); padding-top: 2px; }
+.rec-action { border-color: rgba(95,212,242,0.4); }
+.rec-action .rec-k { color: var(--cyan); }
+.rec-caution { border-color: rgba(242,183,82,0.35); }
+.rec-caution .rec-k { color: var(--amber); }
+.rec-insight .rec-k { color: var(--emerald); }
+@media (max-width: 480px) { .rec { grid-template-columns: 1fr; } }
+.quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+.quick a { display: flex; flex-direction: column; gap: 4px; padding: 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-2); color: var(--fg); transition: border-color 0.2s, background 0.2s; }
+.quick a:hover { border-color: var(--line-strong); background: rgba(95,212,242,0.06); text-decoration: none; }
+.quick span { color: var(--fg-3); font-size: 12px; }
+.empty { padding: 16px; border: 1px dashed var(--line-strong); border-radius: var(--r); text-align: left; }
+.empty-t { font-weight: 600; margin-bottom: 4px; }
+.empty-b { color: var(--fg-2); }
+.empty-a { margin-top: 10px; }
+.ok-line { margin: 0 0 8px; }
+.mini-list { margin: 0; }
+
+/* charts */
+.chart { width: 100%; height: auto; display: block; }
+.chart .axis { fill: var(--fg-3); font: 11px var(--mono); }
+.chart .val { fill: var(--fg); font: 600 11px var(--mono); }
+.chart .grid-l { stroke: rgba(120,200,235,0.10); }
+.chart .zero { stroke: var(--fg-3); stroke-width: 1; }
+.chart .line { stroke: var(--emerald); stroke-width: 2.5; stroke-linejoin: round; stroke-dasharray: 2000; stroke-dashoffset: 0; animation: draw 1s ease both; }
+.chart .pb { stroke: var(--amber); stroke-dasharray: 4 4; }
+@keyframes draw { from { stroke-dashoffset: 2000; } to { stroke-dashoffset: 0; } }
+
+/* planner */
+.planner { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 980px) { .planner { grid-template-columns: 1fr; } }
+.plan-card { background: linear-gradient(180deg, var(--panel-2), var(--panel)); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; min-width: 0; }
+.plan-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.plan { width: 100%; height: auto; display: block; touch-action: none; user-select: none; border-radius: 8px; background: var(--bg-2); }
+.plan .roof { fill: rgba(191,233,250,0.05); stroke: var(--ice); stroke-width: 2; }
+.plan .edge { fill: none; stroke: var(--fg-3); stroke-dasharray: 0.4 0.3; stroke-width: 1.2; }
+.plan .pv { fill: rgba(95,212,242,0.18); stroke: var(--cyan); stroke-width: 1.5; cursor: grab; }
+.plan .pv:focus, .plan .ex:focus { outline: none; }
+.plan .pv.sel, .plan .ex.sel { stroke: var(--focus); stroke-width: 3; }
+.plan .pv.bad { stroke: var(--red); }
+.plan .ex { stroke: var(--red); stroke-width: 1.5; cursor: grab; }
+.plan .mod { fill: rgba(63,211,154,0.35); stroke: rgba(63,211,154,0.8); stroke-width: 0.6; vector-effect: non-scaling-stroke; }
+.plan .zl { fill: var(--cyan); font: 0.7px var(--mono); pointer-events: none; }
+.plan .xl { fill: #ffb1aa; font: 0.7px var(--mono); pointer-events: none; }
+.plan .dim { fill: var(--ice); font: 0.85px var(--mono); }
+.plan .nbg { fill: rgba(5,8,15,0.7); stroke: var(--line-strong); stroke-width: 0.05; }
+.plan .narrow { fill: var(--cyan); }
+.plan .ntxt { fill: var(--ice); font: 0.6px var(--mono); }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--fg-2); margin: 10px 0 0; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.k { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+.k-roof { background: rgba(191,233,250,0.25); border: 1px solid var(--ice); }
+.k-pv { background: rgba(95,212,242,0.35); border: 1px solid var(--cyan); }
+.k-ex { background: repeating-linear-gradient(45deg, rgba(255,123,114,0.6) 0 2px, transparent 2px 5px); border: 1px solid var(--red); }
+.k-mod { background: rgba(63,211,154,0.45); border: 1px solid var(--emerald); }
+.k-edge { border: 1px dashed var(--fg-3); }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
+.dot-pv { background: var(--cyan); }
+.dot-exclusion { background: var(--red); }
+.zones { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.zone { padding: 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-2); }
+.zone.on { border-color: var(--line-strong); }
+.zone-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.zone-h .link { color: var(--ice); }
+.zone-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 8px 0; }
+.zone-grid .field-l label { font-size: 12px; color: var(--fg-2); }
+
+/* studio */
+.studio { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 980px) { .studio { grid-template-columns: 1fr; } }
+.studio-main { background: linear-gradient(180deg, var(--panel-2), var(--panel)); border: 1px solid var(--line); border-radius: var(--r); padding: 12px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.studio-main[data-fs] { border-radius: 0; border: 0; padding: 12px; height: 100vh; }
+.studio-main[data-fs] .canvas-wrap { flex: 1; min-height: 0; }
+.stage-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+.canvas-wrap { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); min-height: 380px; background: radial-gradient(circle at 50% 35%, #15263f 0%, #060b15 75%); }
+.gl { display: block; width: 100%; height: min(62vh, 620px); min-height: 380px; cursor: grab; outline: none; }
+.gl:focus-visible { box-shadow: inset 0 0 0 2px var(--focus); }
+.gl:active { cursor: grabbing; }
+.studio-main[data-fs] .gl { height: 100%; min-height: 0; }
+.canvas-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; text-align: center; color: var(--fg-2); background: rgba(5,8,15,0.55); pointer-events: none; }
+.canvas-empty.bad { background: rgba(40,10,14,0.75); pointer-events: auto; }
+.canvas-empty .empty-t { color: var(--fg); font-size: 16px; }
+.canvas-empty p { max-width: 46ch; margin: 0; }
+.spinner { width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(95,212,242,0.2); border-top-color: var(--cyan); animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.section-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--fg-2); }
+.section-row input[type="range"] { flex: 1; min-width: 160px; accent-color: var(--cyan); }
+.studio-note { margin: 0; }
+.studio-side { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.drop { border: 1px dashed var(--line-strong); border-radius: 8px; padding: 16px; text-align: center; background: var(--bg-2); transition: border-color 0.2s, background 0.2s; }
+.drop-on { border-color: var(--cyan); background: rgba(95,212,242,0.08); }
+.drop p { margin-bottom: 10px; }
+.drop .hint { margin-top: 10px; text-align: left; }
+.cal { margin-top: 14px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg-2); }
+.cal-t { font-weight: 600; margin-bottom: 8px; }
+.units-status { margin: 12px 0; }
+.surfaces { list-style: none; padding: 0; margin: 0 0 10px; display: grid; gap: 6px; }
+.srf { width: 100%; text-align: left; display: flex; flex-direction: column; gap: 2px; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-2); color: var(--fg); cursor: pointer; font: inherit; }
+.srf.on { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(95,212,242,0.12); }
+.srf-l { font-weight: 500; }
+.sel { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 4px; }
+.layers { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; max-height: 220px; overflow: auto; }
+.layers label { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.layers span { overflow-wrap: anywhere; }
+
+/* report: always a bright print layout */
+.report { --ink: #14202e; --ink-2: #44566b; --rule: #d6dee8; --accent: #0b6e8a; background: #ffffff; color: var(--ink); font-family: var(--sans); border-radius: 12px; padding: clamp(18px, 4vw, 36px); border: 1px solid var(--rule); min-width: 0; overflow-wrap: anywhere; }
+.report, .report * { color-scheme: light; }
+.report h1 { font: 600 26px/1.2 var(--display); color: var(--ink); }
+.report h2 { font: 600 16px/1.3 var(--display); color: var(--accent); border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin: 24px 0 10px; color: #0b5f78; }
+.report p, .report li { color: var(--ink); }
+.rpt-bar { background: #eef7fb; border: 1px solid #bcdcea; border-radius: 8px; padding: 10px 14px; margin-bottom: 18px; font-size: 13px; color: #123a4b; }
+.rpt-bar p { margin: 0 0 4px; }
+.rpt-bar .link { color: #0b5f78; }
+.rpt-status { color: #35566a; }
+.rpt-h { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 3px solid #0b6e8a; }
+.rpt-kicker { font: 600 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: #0b6e8a; margin-bottom: 6px; }
+.rpt-h p { color: var(--ink-2); margin: 6px 0 0; max-width: 60ch; }
+.rpt-meta { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; font-size: 12px; margin: 0; }
+.rpt-meta dt { color: var(--ink-2); }
+.rpt-meta dd { margin: 0; color: var(--ink); }
+.rpt-t { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0 10px; }
+.rpt-t th, .rpt-t td { border: 1px solid var(--rule); padding: 6px 8px; text-align: left; vertical-align: top; color: var(--ink); }
+.rpt-t th { background: #f4f8fb; color: var(--ink-2); font-weight: 600; width: 1%; white-space: nowrap; }
+.rpt-t thead th { background: #e9f1f7; color: var(--ink); }
+.rpt-num td, .rpt-num th { text-align: right; }
+.rpt-num th:first-child { text-align: left; }
+.rpt-prov td { font-size: 12px; }
+.rpt-note { font-size: 12.5px; color: var(--ink-2); margin: 6px 0; }
+.rpt-alert { background: #fff4e5; border: 1px solid #f0c27a; border-radius: 6px; padding: 8px 10px; color: #6b4300; }
+.rpt-list { padding-left: 18px; font-size: 13px; color: var(--ink); }
+.rpt-list li { margin-bottom: 4px; }
+.mono-l li { font-family: var(--mono); font-size: 11.5px; }
+.rpt-f { margin-top: 26px; padding-top: 10px; border-top: 1px solid var(--rule); font-size: 11.5px; color: var(--ink-2); }
+.report section { break-inside: auto; }
+.report table { break-inside: auto; }
+.report tr { break-inside: avoid; }
+
+/* motion + small screens */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@media (max-width: 560px) {
+  .topbar { gap: 10px; }
+  .topbar-r { display: none; }
+  .nav a { padding: 6px 8px; font-size: 13px; }
+  .brand-s { display: none; }
+  .zone-grid { grid-template-columns: 1fr 1fr; }
+  .gl { min-height: 300px; }
+  .canvas-wrap { min-height: 300px; }
+}
+@media print {
+  :root { color-scheme: light; }
+  body { background: #fff !important; color: #000; padding: 0 !important; }
+  .topbar, .foot, .demo-bar, .subtabs, .no-print { display: none !important; }
+  .page { padding: 0 !important; animation: none; }
+  .report { border: 0; padding: 0; }
+  .rpt-h, .report h2 { break-after: avoid; }
+}
+
+</style>
+<div id="root"><noscript>EcoPilot UAE needs JavaScript to run.</noscript></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+"use strict";(()=>{var sn=Object.create;var Ze=Object.defineProperty;var ln=Object.getOwnPropertyDescriptor;var cn=Object.getOwnPropertyNames;var dn=Object.getPrototypeOf,un=Object.prototype.hasOwnProperty;var mn=(t,n,a)=>n in t?Ze(t,n,{enumerable:!0,configurable:!0,writable:!0,value:a}):t[n]=a;var pn=(t,n,a)=>()=>{if(a)throw a[0];try{return t&&(n=t(t=0)),n}catch(o){throw a=[o],o}};var ut=(t,n)=>()=>{try{return n||t((n={exports:{}}).exports,n),n.exports}catch(a){throw n=0,a}};var fn=(t,n,a,o)=>{if(n&&typeof n=="object"||typeof n=="function")for(let i of cn(n))!un.call(t,i)&&i!==a&&Ze(t,i,{get:()=>n[i],enumerable:!(o=ln(n,i))||o.enumerable});return t};var ue=(t,n,a)=>(a=t!=null?sn(dn(t)):{},fn(n||!t||!t.__esModule?Ze(a,"default",{value:t,enumerable:!0}):a,t));var z=(t,n,a)=>mn(t,typeof n!="symbol"?n+"":n,a);var me=ut((Jn,mt)=>{"use strict";K();mt.exports=window.React});var Le,e,q,K=pn(()=>{"use strict";Le=ue(me()),e=Le.createElement,q=Le.Fragment});var ft=ut((ea,pt)=>{"use strict";K();pt.exports=window.ReactDOM});K();var on=ue(me()),rn=ue(ft());K();var de=ue(me());K();var bn=()=>new Date().toISOString(),ye=(t="id")=>`${t}-${Math.random().toString(36).slice(2,8)}${Date.now().toString(36).slice(-3)}`,bt={moduleLengthM:2.278,moduleWidthM:1.134,ratedPowerW:550,orientation:"landscape",gapM:.02,edgeSetbackM:1,obstacleClearanceM:.5,yieldKwhPerKwp:1600},gn={moduleLengthM:2.172,moduleWidthM:1.303,ratedPowerW:600,orientation:"portrait",gapM:.02,edgeSetbackM:.8,obstacleClearanceM:.5,yieldKwhPerKwp:1600},hn=()=>[{id:"A",label:"Scenario A",description:"Landscape modules, 550 W class, 1.0 m edge setback.",config:{...bt}},{id:"B",label:"Scenario B",description:"Portrait modules, 600 W class, 0.8 m edge setback.",config:{...gn}}],yn=()=>({buildingType:"school",emirate:"Dubai",area:"",roofShape:"flat",lengthUnit:"m",roofLengthM:null,roofWidthM:null,floors:null,orientationDeg:null,annualDemandKwh:null,notes:""}),vn=()=>({currency:"AED",capexPerKwp:null,tariffPerKwh:null,selfConsumptionPct:null,exportCreditPerKwh:null,omPerKwpYear:null,degradationPctYear:null,tariffEscalationPct:null,discountRatePct:null,horizonYears:25,co2KgPerKwh:null});function Pe(){let t=bn(),n={};for(let a of["A","B"])for(let o of Object.keys(bt))n[`scenario${a}.${o}`]="illustrative";return{version:1,project:{id:ye("prj"),name:"",isDemo:!1,createdAt:t,updatedAt:t,reviewedFingerprint:null,reviewedAt:null},building:yn(),model:null,surfaces:[],roofSource:{kind:"user"},zones:[],scenarios:hn(),activeScenario:"A",finance:vn(),prov:n,notices:[]}}var wn="Al Noor Demonstration School (fictional)";function gt(){let t=Pe(),n=[{id:"z-west",kind:"pv",label:"West bay",category:"array",x:0,y:0,w:23,h:26},{id:"z-east",kind:"pv",label:"East bay",category:"array",x:25,y:0,w:23,h:26},{id:"x-hvac",kind:"exclusion",label:"Rooftop plant (HVAC)",category:"HVAC",x:6,y:4,w:10,h:6},{id:"x-core",kind:"exclusion",label:"Stair and lift core",category:"Stair / lift core",x:36,y:16,w:6,h:5},{id:"x-tank",kind:"exclusion",label:"Water tank",category:"Tank",x:22,y:2,w:4,h:4}],a={...t.prov};for(let o of["buildingType","emirate","area","roofShape","roofLengthM","roofWidthM","floors","orientationDeg","annualDemandKwh"])a[`building.${o}`]="illustrative";a.zones="illustrative";for(let o of["capexPerKwp","selfConsumptionPct","exportCreditPerKwh","omPerKwpYear","degradationPctYear","discountRatePct"])a[`finance.${o}`]="illustrative";a["finance.tariffPerKwh"]="external";return{...t,project:{...t.project,name:wn,isDemo:!0},building:{buildingType:"school",emirate:"Dubai",area:"Fictional site, Dubai",roofShape:"flat",lengthUnit:"m",roofLengthM:48,roofWidthM:26,floors:3,orientationDeg:0,annualDemandKwh:65e4,notes:"Fictional demonstration school. Every figure here is illustrative and is not measured data for a real building."},zones:n,finance:{currency:"AED",capexPerKwp:3e3,tariffPerKwh:.44,selfConsumptionPct:85,exportCreditPerKwh:0,omPerKwpYear:30,degradationPctYear:.5,tariffEscalationPct:null,discountRatePct:5,horizonYears:25,co2KgPerKwh:null},prov:a}}K();K();var Ie=t=>Math.max(0,t.w)*Math.max(0,t.h);function $e(t,n){let a=Math.max(t.x,n.x),o=Math.max(t.y,n.y),i=Math.min(t.x+t.w,n.x+n.w),r=Math.min(t.y+t.h,n.y+n.h);return i-a<=1e-6||r-o<=1e-6?null:{x:a,y:o,w:i-a,h:r-o}}var Se=(t,n)=>{let a=$e(t,n);return a?Ie(a):0};var ht=(t,n)=>({x:t.x-n,y:t.y-n,w:t.w+2*n,h:t.h+2*n}),yt=(t,n)=>{let a=t.w-2*n,o=t.h-2*n;return a<=1e-6||o<=1e-6?null:{x:t.x+n,y:t.y+n,w:a,h:o}},vt=(t,n)=>t.x>=n.x-1e-6&&t.y>=n.y-1e-6&&t.x+t.w<=n.x+n.w+1e-6&&t.y+t.h<=n.y+n.h+1e-6;function De(t){let n=t.filter(i=>i.w>1e-6&&i.h>1e-6);if(n.length===0)return 0;let a=Array.from(new Set(n.flatMap(i=>[i.x,i.x+i.w]))).sort((i,r)=>i-r),o=0;for(let i=0;i<a.length-1;i++){let r=a[i],s=a[i+1],l=s-r;if(l<=0)continue;let m=n.filter(u=>u.x<=r+1e-6/2&&u.x+u.w>=s-1e-6/2).map(u=>[u.y,u.y+u.h]).sort((u,w)=>u[0]-w[0]),f=0,b=0,y=-1/0,p=!1;for(let[u,w]of m)p?u<=y?y=Math.max(y,w):(f+=y-b,b=u,y=w):(b=u,y=w,p=!0);p&&(f+=y-b),o+=f*l}return o}var Fe=(t,n)=>t.map(a=>$e(a,n)).filter(a=>a!==null);function Ue(t,n,a){let o=Fe(t,a),i=Fe(n,a);return De([...o,...i])-De(i)}var xe={gross:"Gross roof area (m²) = Length (m) × Width (m)",candidate:"Candidate PV area (m²) = Gross roof area − Valid excluded area",moduleCount:"Module count (upper bound) = floor(Usable candidate PV area ÷ Module area)",placed:"Placed modules = grid-packed modules that fit inside each PV zone after edge setback, spacing and obstacle clearance",capacity:"Capacity (kWp) = Panel count × Panel rated power (W) ÷ 1,000",generation:"Annual generation (kWh/year) = Capacity (kWp) × Annual yield assumption (kWh/kWp/year)",ratio:"Generation-to-demand ratio (%) = Annual generation ÷ Positive annual demand × 100",selfConsumed:"Self-consumed energy = Generation × Self-consumption % (capped at annual demand when demand is known)",savings:"Year-n savings = Tariff × (1+escalation)^(n−1) × Self-consumed(n) + Export credit × Exported(n) − O&M",payback:"Simple payback = first year cumulative net cash flow ≥ 0 (linearly interpolated within the year)",lcoe:"Simple LCOE (undiscounted) = (CAPEX + Σ O&M) ÷ Σ generation over the horizon"};function He(t){let n=Math.max(t.moduleLengthM,t.moduleWidthM),a=Math.min(t.moduleLengthM,t.moduleWidthM);return t.orientation==="landscape"?{mw:n,mh:a}:{mw:a,mh:n}}var We=t=>t.moduleLengthM*t.moduleWidthM;function Te(t){let{roofLengthM:n,roofWidthM:a}=t;return n==null||a==null||!Number.isFinite(n)||!Number.isFinite(a)||n<=0||a<=0?null:{x:0,y:0,w:n,h:a}}function Xe(t,n,a){let o=n.filter(p=>p.kind==="pv"),i=n.filter(p=>p.kind==="exclusion").map(p=>ht(p,a.obstacleClearanceM)),r=yt(t,a.edgeSetbackM),s=o.length===0,l=s?[{id:"__roof__",label:"Whole roof (implicit zone)",rect:t}]:o.map(p=>({id:p.id,label:p.label,rect:p})),{mw:m,mh:f}=He(a),b=[],y=[];for(let p of l){let u=r?$e(p.rect,r):null,w=0;if(u&&m>0&&f>0){let v=Math.floor((u.w+a.gapM+1e-6)/(m+a.gapM)),M=Math.floor((u.h+a.gapM+1e-6)/(f+a.gapM));for(let A=0;A<v;A++)for(let g=0;g<M;g++){let L={x:u.x+A*(m+a.gapM),y:u.y+g*(f+a.gapM),w:m,h:f};i.some(U=>Se(L,U)>1e-6)||b.some(U=>Se(L,U)>1e-6)||(b.push(L),w++)}}y.push({zoneId:p.id,label:p.label,count:w})}return{panels:b,perZone:y,usedImplicitZone:s}}function wt(t,n){let a=[],o=(i,r,s)=>i&&a.push({id:`cfg-${n}-${r}`,severity:"error",message:`Scenario ${n}: ${s}`,scenarioId:n});return o(!(t.moduleLengthM>0)||!(t.moduleWidthM>0),"dims","module dimensions must be positive."),o(!(t.ratedPowerW>0),"power","module rated power must be positive."),o(!(t.gapM>=0),"gap","module spacing cannot be negative."),o(!(t.edgeSetbackM>=0),"setback","edge setback cannot be negative."),o(!(t.obstacleClearanceM>=0),"clear","obstacle clearance cannot be negative."),o(!(t.yieldKwhPerKwp>0),"yield","annual yield assumption must be positive."),a}function xn(t,n){let a=[],o=Te(t);if(t.roofLengthM==null||t.roofWidthM==null)return a.push({id:"roof-missing",severity:"error",message:"Roof length and width are not set. Enter them on the Building Profile or select a roof surface in the 3D Studio."}),a;if(!o)return a.push({id:"roof-invalid",severity:"error",message:"Roof dimensions must be positive numbers."}),a;t.roofShape==="pitched"&&a.push({id:"roof-pitched",severity:"warning",message:"Pitched roof: the planner treats the roof as one planar rectangle. Tilt and azimuth are not modelled in the yield."}),t.roofShape==="unknown"&&a.push({id:"roof-shape-unknown",severity:"info",message:"Roof shape is unknown. The planner assumes a planar rectangle."}),t.orientationDeg==null&&a.push({id:"orientation-unknown",severity:"info",message:"Roof orientation is unknown, so the north arrow is hidden."});for(let s of n){if(!(s.w>0)||!(s.h>0)||!Number.isFinite(s.x)||!Number.isFinite(s.y)){a.push({id:`zone-size-${s.id}`,severity:"error",message:`"${s.label}" needs a positive width and height.`,zoneId:s.id});continue}vt(s,o)||a.push({id:`zone-out-${s.id}`,severity:"error",message:`"${s.label}" extends outside the roof boundary (${o.w.toFixed(1)} × ${o.h.toFixed(1)} m).`,zoneId:s.id})}let i=n.filter(s=>s.kind==="pv"&&s.w>0&&s.h>0);for(let s=0;s<i.length;s++)for(let l=s+1;l<i.length;l++){let m=Se(i[s],i[l]);m>1e-6&&a.push({id:`pv-overlap-${i[s].id}-${i[l].id}`,severity:"error",message:`PV zones "${i[s].label}" and "${i[l].label}" overlap by ${m.toFixed(1)} m². Overlaps would double-count area.`,zoneId:i[s].id})}let r=n.filter(s=>s.kind==="exclusion"&&s.w>0&&s.h>0);for(let s=0;s<r.length;s++)for(let l=s+1;l<r.length;l++)Se(r[s],r[l])>1e-6&&a.push({id:`ex-overlap-${r[s].id}-${r[l].id}`,severity:"warning",message:`Exclusions "${r[s].label}" and "${r[l].label}" overlap. The overlapping area is counted once.`,zoneId:r[s].id});for(let s of i){let l=Ue([s],[],o)-Ue([s],r,o);l>.05&&a.push({id:`pv-under-ex-${s.id}`,severity:"info",message:`${l.toFixed(1)} m² of PV zone "${s.label}" lies under an exclusion and is not counted.`,zoneId:s.id})}return a}var Ke=(t,n=[],a=[])=>({status:t,missing:n,notes:a,capex:null,year1SelfConsumedKwh:null,year1ExportedKwh:null,year1Savings:null,year1Om:null,year1Net:null,paybackYears:null,paybackWithinHorizon:!1,npv:null,lcoe:null,cumulative:[],netCashHorizon:null});function Mn(t,n,a,o){let i=[];if(o.capexPerKwp==null&&i.push("Installed cost (AED per kWp)"),o.tariffPerKwh==null&&i.push("Electricity tariff avoided (AED per kWh)"),o.selfConsumptionPct==null&&i.push("Self-consumption share (%)"),i.length)return Ke("incomplete",i);if(o.capexPerKwp<0||o.tariffPerKwh<0||o.selfConsumptionPct<0||o.selfConsumptionPct>100)return Ke("blocked",[],["Financial inputs must be non-negative and self-consumption must be between 0 and 100 %."]);let r=[],s=Math.max(1,Math.min(40,Math.round(o.horizonYears||25))),l=t*o.capexPerKwp,m=o.selfConsumptionPct/100,f=o.exportCreditPerKwh??0;o.exportCreditPerKwh==null&&r.push("No export credit entered: exported energy is valued at AED 0.");let b=(o.omPerKwpYear??0)*t;o.omPerKwpYear==null&&r.push("No O&M cost entered: assumed AED 0 per year.");let y=(o.degradationPctYear??0)/100;o.degradationPctYear==null&&r.push("No degradation entered: assumed 0 % per year.");let p=(o.tariffEscalationPct??0)/100,u=o.discountRatePct==null?null:o.discountRatePct/100;a==null&&r.push("Annual demand is unknown, so self-consumption cannot be checked against site demand.");let w=[-l],v=0,M=0,A=u==null?null:-l,g=null,L=null,U=!1;for(let R=1;R<=s;R++){let x=n*Math.pow(1-y,R-1),E=x*m;a!=null&&E>a&&(E=a,R===1&&(U=!0));let P=x-E,d=o.tariffPerKwh*Math.pow(1+p,R-1)*E+f*P,S=d-b;R===1&&(g={sc:E,ex:P,sav:d}),v+=b,M+=x;let W=w[R-1];w.push(W+S),L==null&&W<0&&W+S>=0&&S>0&&(L=R-1+-W/S),A!=null&&(A+=S/Math.pow(1+u,R))}U&&r.push("Year-1 self-consumed energy was capped at annual demand; the remainder is treated as exported.");let T=g.sav-b;return l===0&&(L=0),{status:"ok",missing:[],notes:r,capex:l,year1SelfConsumedKwh:g.sc,year1ExportedKwh:g.ex,year1Savings:g.sav,year1Om:b,year1Net:T,paybackYears:L,paybackWithinHorizon:L!=null,npv:A,lcoe:M>0?(l+v)/M:null,cumulative:w,netCashHorizon:w[s]}}var xt=(t,n)=>({id:t.id,label:t.label,status:"blocked",config:t.config,panelCount:null,upperBoundCount:null,capacityKwp:null,annualGenKwh:null,ratioPct:null,ratioNote:"blocked",panelAreaM2:null,coverageOfCandidatePct:null,layoutEfficiencyPct:null,placed:[],perZone:[],finance:n,co2AvoidedKg:null});function kn(t,n){return n==null?{pct:null,note:"missing-demand"}:n>0?{pct:t/n*100,note:"ok"}:{pct:null,note:"zero-demand"}}function Mt(t){let{building:n,zones:a,scenarios:o,finance:i}=t,r=xt(n,a),s=o.flatMap(x=>wt(x.config,x.id)),l=[...r,...s],m=Te(n),f=r.some(x=>x.severity==="error"),b=n.annualDemandKwh,y={demandKwh:b,generationKwh:0,gridImportKwh:b},p=Ke("blocked");if(!m||f)return{status:"blocked",issues:l,roof:{valid:!1,lengthM:n.roofLengthM,widthM:n.roofWidthM,grossAreaM2:m?Ie(m):null,excludedAreaM2:null,candidateAreaM2:null,usablePvAreaM2:null,usedImplicitZone:!1},baseline:y,scenarios:o.map(x=>xt(x,p))};let u=a.filter(x=>x.kind==="pv"),w=a.filter(x=>x.kind==="exclusion"),v=Ie(m),M=De(Fe(w,m)),A=v-M,g=u.length===0,L=g?A:Ue(u,w,m);A<=1e-6&&l.push({id:"no-candidate",severity:"error",message:"Excluded areas cover the whole roof. No candidate PV area remains."}),g&&l.push({id:"implicit-zone",severity:"info",message:"No PV zone drawn: the whole roof minus exclusions is treated as one candidate zone."});let U=o.map(x=>{if(A<=1e-6||wt(x.config,x.id).length)return xt(x,p);let E=Xe(m,a,x.config),P=E.panels.length,d=Math.floor((L+1e-6)/We(x.config)),S=P*x.config.ratedPowerW/1e3,W=S*x.config.yieldKwhPerKwp,F=kn(W,b),G=P*We(x.config),$=P>0?Mn(S,W,b,i):Ke("blocked",[],["No modules fit, so there is nothing to price."]);return P===0?l.push({id:`no-panels-${x.id}`,severity:"warning",message:`Scenario ${x.id}: no modules fit with the current zones, setbacks and spacing.`,scenarioId:x.id}):d>0&&P<.85*d&&l.push({id:`layout-gap-${x.id}`,severity:"info",message:`Scenario ${x.id}: only ${P} of an upper-bound ${d} modules fit once spacing, setbacks and obstacle clearance are applied.`,scenarioId:x.id}),{id:x.id,label:x.label,status:P>0?"ok":"no-panels",config:x.config,panelCount:P,upperBoundCount:d,capacityKwp:S,annualGenKwh:W,ratioPct:F.pct,ratioNote:F.note,panelAreaM2:G,coverageOfCandidatePct:A>0?G/A*100:null,layoutEfficiencyPct:d>0?P/d*100:null,placed:E.panels,perZone:E.perZone,finance:$,co2AvoidedKg:i.co2KgPerKwh!=null?W*i.co2KgPerKwh:null}}),T=l.some(x=>x.severity==="error"),R=l.some(x=>x.severity==="warning");return{status:T?"blocked":R?"ok-with-warnings":"ok",issues:l,roof:{valid:!0,lengthM:m.w,widthM:m.h,grossAreaM2:v,excludedAreaM2:M,candidateAreaM2:A,usablePvAreaM2:L,usedImplicitZone:g},baseline:y,scenarios:U}}K();K();function kt(t,n=0){let a=3735928559^n,o=1103547991^n;for(let i=0;i<t.length;i++){let r=t.charCodeAt(i);a=Math.imul(a^r,2654435761),o=Math.imul(o^r,1597334677)}return a=Math.imul(a^a>>>16,2246822507)^Math.imul(o^o>>>13,3266489909),o=Math.imul(o^o>>>16,2246822507)^Math.imul(a^a>>>13,3266489909),(4294967296*(2097151&o)+(a>>>0)).toString(36)}K();var Nt=(t,n)=>n==="ft"?t*.3048:t,Pt=(t,n)=>n==="ft"?t/.3048:t,N=(t,n=1)=>t==null||!Number.isFinite(t)?"—":t.toLocaleString("en-US",{minimumFractionDigits:n,maximumFractionDigits:n}),I=t=>N(t,0),be=(t,n=0)=>t==null||!Number.isFinite(t)?"—":`AED ${N(t,n)}`;function Nn(t){let n=t.building,a=[];return t.project.name.trim()||a.push("Project / building name"),n.emirate||a.push("Emirate"),(n.roofLengthM==null||n.roofWidthM==null)&&a.push("Roof length and width"),n.annualDemandKwh==null&&a.push("Annual electricity consumption (kWh/year)"),n.orientationDeg==null&&a.push("Roof orientation (optional, improves context)"),a}var Me=(t,n)=>n.scenarios.find(a=>a.id===t.activeScenario)??n.scenarios[0];function St(t,n){let a=t.building,o=[t.project.name.trim().length>0,!!a.emirate,a.roofLengthM!=null&&a.roofWidthM!=null,a.annualDemandKwh!=null],i=Math.round(o.filter(Boolean).length/o.length*100),r=Nn(t),s=r.filter(x=>!x.includes("optional")),l=[];l.push({key:"building",label:"Building profile",pct:i,route:"building",status:i===100?"complete":i===0?"missing":"partial",detail:s.length?`Missing: ${s.join(", ")}`:"Name, location, roof size and demand are set."});let m=t.model,f;m?m.status==="loading"?f={key:"model",label:"3D model",pct:30,status:"partial",detail:`Loading ${m.fileName}…`,route:"building-3d"}:m.status==="error"?f={key:"model",label:"3D model",pct:0,status:"blocked",detail:m.error??"The model could not be read.",route:"building-3d"}:m.status==="needs-reupload"?f={key:"model",label:"3D model",pct:20,status:"partial",detail:`${m.fileName} is not stored in this browser. Re-upload it to restore the 3D view.`,route:"building-3d"}:m.unitStatus==="unconfirmed"?f={key:"model",label:"3D model",pct:60,status:"partial",detail:`${m.fileName} loaded. Units are unconfirmed, so no physical measurements are shown.`,route:"building-3d"}:f={key:"model",label:"3D model",pct:100,status:"complete",detail:`${m.fileName} loaded with ${m.unitLabel??"confirmed"} units.`,route:"building-3d"}:f={key:"model",label:"3D model",pct:0,status:"optional",detail:"No model loaded (optional). Upload a .glb/.gltf to inspect the building in 3D.",route:"building-3d"},l.push(f);let b=n.issues.filter(x=>x.severity==="error"&&!x.scenarioId),y=a.roofLengthM!=null&&a.roofWidthM!=null,p=t.zones.filter(x=>x.kind==="pv").length;l.push({key:"roof",label:"Roof planning",route:"planner",status:y?b.length?"blocked":p>0?"complete":"partial":"missing",pct:y?b.length?40:p>0?100:60:0,detail:y?b.length?`${b.length} layout error(s) block results.`:p>0?`${p} PV zone(s), ${t.zones.length-p} exclusion(s).`:"No PV zone drawn. The whole roof is used as an implicit zone.":"Set roof dimensions first."});let u=Me(t,n),w=u&&u.status==="ok";l.push({key:"solar",label:"Solar assessment",route:"analysis",status:w?"complete":u?.status==="no-panels"?"partial":"missing",pct:w?100:u?.status==="no-panels"?50:0,detail:w?`${u.panelCount} modules, ${N(u.capacityKwp,1)} kWp, ${I(u.annualGenKwh)} kWh/year (${u.label}).`:u?.status==="no-panels"?"No modules fit the current layout.":"Needs valid roof geometry and module settings."});let v=u?.finance,M=v?.status==="ok",A=[t.finance.capexPerKwp,t.finance.tariffPerKwh,t.finance.selfConsumptionPct].filter(x=>x!=null).length;l.push({key:"finance",label:"Financial analysis",route:"analysis",status:M?"complete":A>0?"partial":"missing",pct:M?100:Math.round(A/3*80),detail:M?`Payback ${v.paybackYears!=null?N(v.paybackYears,1)+" years":"beyond horizon"} under the stated inputs.`:v?.missing?.length?`Needs: ${v.missing.join("; ")}.`:"Enter cost, tariff and self-consumption."});let g=i===100&&!!w;l.push({key:"report",label:"Report",route:"report",status:g?"complete":w||i>50?"partial":"missing",pct:g?100:w?70:Math.round(i/2),detail:g?M?"Ready to review and print.":"Ready. Financial section will show missing inputs.":"Complete the building profile and a valid solar layout first."});let L=l.filter(x=>x.key!=="model"),U=Math.round(L.reduce((x,E)=>x+E.pct,0)/L.length),T,R=L.find(x=>x.status!=="complete");return R?R.key==="building"?T={title:"Complete the building profile",body:R.detail,route:"building"}:R.key==="roof"?T={title:y?"Fix or define the roof layout":"Set the roof dimensions",body:R.detail,route:y?"planner":"building"}:R.key==="solar"?T={title:"Resolve layout issues",body:R.detail,route:"planner"}:R.key==="finance"?T={title:"Enter financial assumptions",body:R.detail,route:"analysis"}:T={title:"Open the report",body:R.detail,route:"report"}:T={title:"Review and share the assessment",body:"All required stages are complete. Review the report and mark the assessment as reviewed.",route:"report"},{stages:l,overallPct:U,missingBuilding:r,nextAction:T}}function At(t,n){let a=[],o=t.building,i=n.scenarios.filter(s=>s.status==="ok");o.annualDemandKwh==null&&a.push({id:"demand",kind:"action",title:"Add annual electricity consumption",body:"Enter 12 months of metered consumption from the utility bills. Without it, EcoPilot cannot compare generation with demand or check self-consumption.",route:"building"}),(o.roofLengthM==null||o.roofWidthM==null)&&a.push({id:"roof",kind:"action",title:"Set the roof dimensions",body:"Measure the roof on site or take dimensions from drawings, or select the roof surface on a calibrated 3D model.",route:"building"}),t.zones.length===0&&o.roofLengthM!=null&&a.push({id:"zones",kind:"action",title:"Mark exclusions on the roof",body:"Add rooftop plant, stair cores, tanks and skylights as exclusions. Until then every square metre is treated as available, which overstates capacity.",route:"planner"}),t.model&&t.model.status==="ready"&&t.model.unitStatus==="unconfirmed"&&a.push({id:"unit",kind:"action",title:"Confirm the 3D model units",body:"Model dimensions are shown in raw model units until you confirm the unit convention or calibrate with one known length.",route:"building-3d"}),t.model&&t.model.status==="ready"&&t.surfaces.length===0&&a.push({id:"surface",kind:"insight",title:"The 3D model has not been analysed for roofs yet",body:"Uploading a model does not measure any roof. Use the surface picker in the 3D Studio to select a roof surface.",route:"building-3d"}),o.roofShape==="pitched"&&a.push({id:"pitched",kind:"caution",title:"Pitched roof: tilt and azimuth are not modelled",body:"Annual yield uses one specific-yield assumption for the whole system. Use a site-specific simulation for sloped or multi-facing roofs.",route:"planner"});for(let s of i){let l=s.id;s.ratioPct!=null&&(s.ratioPct>100?a.push({id:`over-${l}`,kind:"caution",title:`Scenario ${l} generates more than annual demand (${I(s.ratioPct)} %)`,body:"Surplus energy depends on export or net-metering rules and on actual daytime load. Check utility rules before sizing above demand, and consider a smaller array.",route:"analysis"}):s.ratioPct<15?a.push({id:`low-${l}`,kind:"insight",title:`Scenario ${l} covers about ${I(s.ratioPct)} % of annual demand`,body:"Roof area limits solar contribution for this building. Efficiency measures or additional surfaces such as car-park canopies may close more of the gap.",route:"analysis"}):a.push({id:`cover-${l}`,kind:"insight",title:`Scenario ${l} could offset about ${I(s.ratioPct)} % of annual demand`,body:`${s.panelCount} modules, ${N(s.capacityKwp,1)} kWp, about ${I(s.annualGenKwh)} kWh/year under the stated yield assumption. This is generation, not bill savings.`,route:"analysis"})),s.layoutEfficiencyPct!=null&&s.layoutEfficiencyPct<80&&a.push({id:`eff-${l}`,kind:"insight",title:`Scenario ${l} places ${I(s.layoutEfficiencyPct)} % of the area-based upper bound`,body:"Spacing, edge setbacks, obstacle clearance and zone shapes remove modules. Try the other module orientation or adjust zone edges to reduce leftover strips.",route:"planner"})}if(i.length===2&&i[0].annualGenKwh!=null&&i[1].annualGenKwh!=null){let[s,l]=i,m=s.annualGenKwh>=l.annualGenKwh?s:l,f=Math.abs(s.annualGenKwh-l.annualGenKwh);a.push({id:"compare",kind:"insight",title:`Scenario ${m.id} generates ${I(f)} kWh/year more`,body:`Scenario A: ${N(s.capacityKwp,1)} kWp. Scenario B: ${N(l.capacityKwp,1)} kWp. Compare cost per kWp and installation constraints before choosing on generation alone.`,route:"analysis"})}let r=Me(t,n);if(r&&r.status==="ok"){let s=r.finance;s.status==="incomplete"?a.push({id:"fin",kind:"action",title:"Add financial inputs to see costs and payback",body:`Needed: ${s.missing.join("; ")}. Use installer quotes and your actual tariff rather than generic figures.`,route:"analysis"}):s.status==="ok"&&(s.paybackWithinHorizon||a.push({id:"payback",kind:"caution",title:"No payback within the analysis horizon",body:"Under the stated inputs cumulative cash flow does not turn positive. Test higher tariffs, lower costs or a longer horizon, and obtain real quotes.",route:"analysis"}),o.annualDemandKwh!=null&&t.finance.selfConsumptionPct!=null&&r.annualGenKwh!=null&&r.annualGenKwh*(t.finance.selfConsumptionPct/100)>o.annualDemandKwh&&a.push({id:"sc-cap",kind:"caution",title:"Self-consumption assumption exceeds annual demand",body:"The financial model capped self-consumed energy at annual demand. Review the assumption with hourly or monthly load data.",route:"analysis"}),t.finance.co2KgPerKwh==null&&a.push({id:"co2",kind:"insight",title:"Add a grid emission factor to estimate avoided CO₂",body:"Enter an emission factor (kg CO₂e per kWh) from an official source to see avoided emissions.",route:"analysis"}))}return a.push({id:"pro",kind:"caution",title:"Professional checks before any commitment",body:"Structural capacity and roof condition, shading and soiling analysis, electrical design and protection, fire and access setbacks, utility interconnection and local authority approvals must be confirmed by qualified professionals."}),a}function Je(t){let n=t.model;return kt(JSON.stringify({n:t.project.name,b:t.building,z:t.zones,sc:t.scenarios,f:t.finance,rs:t.roofSource.kind==="model"?t.roofSource.surfaceId:null,m:n?[n.id,n.status,n.unitStatus,n.metresPerUnit]:null,sf:t.surfaces.map(a=>a.id)}))}var Ct="ecopilot-uae:v1",se=new Map,re=t=>({...t,project:{...t.project,updatedAt:new Date().toISOString()}}),ge=(t,n,a)=>{let o={...t};for(let i of n)o[i]=a;return o};function Qe(t){if(t.roofSource.kind!=="model")return{building:t.building,prov:t.prov,roofSource:t.roofSource};let n=t.roofSource.previous;return{building:{...t.building,roofLengthM:n.roofLengthM,roofWidthM:n.roofWidthM},prov:ge(t.prov,["building.roofLengthM","building.roofWidthM"],n.prov),roofSource:{kind:"user"}}}function Pn(t,n){switch(n.type){case"load":return n.state;case"reset":return Pe();case"demo":return gt();case"projectName":return re({...t,project:{...t.project,name:n.name},prov:ge(t.prov,["project.name"],"user")});case"building":{let a=Object.keys(n.patch).map(r=>`building.${r}`),i=("roofLengthM"in n.patch||"roofWidthM"in n.patch)&&n.prov!=="model"&&t.roofSource.kind==="model"?{kind:"user"}:t.roofSource;return re({...t,building:{...t.building,...n.patch},prov:ge(t.prov,a,n.prov??"user"),roofSource:i})}case"zones":return re({...t,zones:n.zones,prov:ge(t.prov,["zones"],"user")});case"scenario":return re({...t,scenarios:t.scenarios.map(a=>a.id===n.id?{...a,config:{...a.config,...n.patch}}:a),prov:ge(t.prov,Object.keys(n.patch).map(a=>`scenario${n.id}.${a}`),"user")});case"activeScenario":return{...t,activeScenario:n.id};case"finance":return re({...t,finance:{...t.finance,...n.patch},prov:ge(t.prov,Object.keys(n.patch).map(a=>`finance.${a}`),"user")});case"setModel":{if(!((t.model?.id??null)!==(n.model?.id??null)))return re({...t,model:n.model});let o=Qe(t);return t.model&&t.model.id!==n.model?.id&&se.delete(t.model.id),re({...t,...o,model:n.model,surfaces:[]})}case"patchModel":{if(!t.model)return t;let a={...t.model,...n.patch},o=a.unitStatus!=="unconfirmed"?a.metresPerUnit:null,i=t.surfaces.map(r=>o==null?{...r,areaM2:null,rectLenM:null,rectWidM:null}:{...r,areaM2:r.areaSrc2*o*o,rectLenM:r.rectLenSrc*o,rectWidM:r.rectWidSrc*o});return re({...t,model:a,surfaces:i})}case"addSurface":return re({...t,surfaces:[...t.surfaces,n.surface]});case"removeSurface":{let a=t.surfaces.filter(i=>i.id!==n.id),o=t.roofSource.kind==="model"&&t.roofSource.surfaceId===n.id?Qe(t):null;return re({...t,...o??{},surfaces:a})}case"roofFromSurface":{let a=t.roofSource.kind==="model"?t.roofSource.previous:{roofLengthM:t.building.roofLengthM,roofWidthM:t.building.roofWidthM,prov:t.prov["building.roofLengthM"]??"unknown"},o=t.surfaces.find(i=>i.id===n.surfaceId);return re({...t,building:{...t.building,roofLengthM:n.lengthM,roofWidthM:n.widthM},prov:ge(t.prov,["building.roofLengthM","building.roofWidthM"],"model"),roofSource:{kind:"model",modelId:o?.modelId??"",surfaceId:n.surfaceId,previous:a}})}case"useUserRoof":return re({...t,...Qe(t)});case"review":return re({...t,project:{...t.project,reviewedFingerprint:Je(t),reviewedAt:new Date().toISOString()}});default:return t}}function Sn(){try{let t=localStorage.getItem(Ct);if(t){let n=JSON.parse(t);if(n&&n.version===1&&n.project&&n.building){let a=Pe(),o={...a,...n,model:null,surfaces:[],scenarios:n.scenarios?.length?n.scenarios:a.scenarios};return o.roofSource?.kind==="model"?{...o,roofSource:{kind:"user"},prov:ge(o.prov,["building.roofLengthM","building.roofWidthM"],"user")}:o}}}catch{}return Pe()}var Rt=(0,de.createContext)(null);function Et({children:t}){let[n,a]=(0,de.useReducer)(Pn,void 0,Sn);return(0,de.useEffect)(()=>{try{localStorage.setItem(Ct,JSON.stringify({...n,model:null,surfaces:[]}))}catch{}},[n]),e(Rt.Provider,{value:{state:n,dispatch:a}},t)}function oe(){let t=(0,de.useContext)(Rt);if(!t)throw new Error("useStore must be used inside StoreProvider");return t}function le(){let{state:t}=oe();return(0,de.useMemo)(()=>{let n=Mt(t),a=St(t,n),o=At(t,n),i=Je(t),r=t.project.reviewedFingerprint,s=r==null?"not-reviewed":r===i?"current":"stale";return{assessment:n,readiness:a,recs:o,fp:i,reviewStatus:s}},[t])}K();K();var Ee=ue(me());K();var Bt=ue(me());K();var Ae=ue(me());K();var Be={user:"User-provided",model:"Model-extracted",calculated:"Calculated",external:"External source",illustrative:"Illustrative",unknown:"Unknown / unverified"},Ve=[{value:"school",label:"School"},{value:"university",label:"University / college"},{value:"office",label:"Office"},{value:"clinic",label:"Clinic / health centre"},{value:"community",label:"Community facility"},{value:"warehouse",label:"Warehouse / light industrial"},{value:"other",label:"Other"}],Lt=["Abu Dhabi","Dubai","Sharjah","Ajman","Umm Al Quwain","Ras Al Khaimah","Fujairah"];function Q({id:t,title:n,eyebrow:a,actions:o,children:i,className:r=""}){return e("section",{className:`panel ${r}`,id:t,"aria-labelledby":n&&t?`${t}-t`:void 0},(n||o)&&e("header",{className:"panel-h"},e("div",null,a&&e("div",{className:"eyebrow"},a),n&&e("h2",{id:t?`${t}-t`:void 0},n)),o&&e("div",{className:"panel-actions"},o)),e("div",{className:"panel-b"},i))}function Dt({p:t}){return t?e("span",{className:`prov prov-${t}`},Be[t]):null}function ie({tone:t,children:n}){return e("span",{className:`pill pill-${t}`},n)}function te({label:t,value:n,unit:a,prov:o,note:i,tone:r}){return e("div",{className:`metric ${r?`metric-${r}`:""}`},e("div",{className:"metric-l"},t),e("div",{className:"metric-v"},e("span",{className:"tnum"},n),a&&e("span",{className:"metric-u"},a)),e("div",{className:"metric-f"},e(Dt,{p:o}),i&&e("span",{className:"metric-n"},i)))}function j({id:t,label:n,prov:a,hint:o,error:i,children:r}){return e("div",{className:`field ${i?"field-err":""}`},e("div",{className:"field-l"},e("label",{htmlFor:t},n),e(Dt,{p:a})),r,o&&!i&&e("p",{className:"hint",id:`${t}-hint`},o),i&&e("p",{className:"err",id:`${t}-err`,role:"alert"},i))}function X({id:t,value:n,onChange:a,step:o="any",min:i,max:r,placeholder:s,unit:l,describedBy:m}){let[f,b]=(0,Ae.useState)(n==null?"":""+n),[y,p]=(0,Ae.useState)(!1);return(0,Ae.useEffect)(()=>{let u=f.trim()===""?null:Number(f);u!==n&&!(u!==null&&Number.isNaN(u))&&b(n==null?"":""+n),p(!1)},[n]),e("span",{className:"numwrap"},e("input",{id:t,className:`input tnum ${y?"input-bad":""}`,type:"text",inputMode:"decimal",value:f,placeholder:s,"aria-invalid":y||void 0,"aria-describedby":m,"data-step":o,"data-min":i,"data-max":r,onChange:u=>{let w=u.target.value;b(w);let v=w.trim();if(v===""){p(!1),a(null);return}let M=Number(v);if(!Number.isFinite(M)){p(!0);return}p(!1),a(M)}}),l&&e("span",{className:"unit"},l))}function Ft({title:t,children:n,action:a}){return e("div",{className:"empty"},e("div",{className:"empty-t"},t),e("div",{className:"empty-b"},n),a&&e("div",{className:"empty-a"},a))}function he(t){if(!t)return"—";try{return new Date(t).toLocaleString("en-GB",{timeZone:"Asia/Dubai",dateStyle:"medium",timeStyle:"short"})+" (UAE time)"}catch{return t}}K();K();var J=class extends Error{},Oe=80*1024*1024,ze=25*1024*1024,An=6e6,Cn={5120:[1,!0],5121:[1,!1],5122:[2,!0],5123:[2,!1],5125:[4,!1],5126:[4,!0]},Rn={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT2:4,MAT3:9,MAT4:16},_e=()=>[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];function En(t,n){let a=new Array(16).fill(0);for(let o=0;o<4;o++)for(let i=0;i<4;i++){let r=0;for(let s=0;s<4;s++)r+=t[s*4+i]*n[o*4+s];a[o*4+i]=r}return a}function Ln(t,n,a){let[o,i,r,s]=n,l=Math.hypot(o,i,r,s)||1,m=o/l,f=i/l,b=r/l,y=s/l,p=m*m,u=f*f,w=b*b,v=m*f,M=m*b,A=f*b,g=y*m,L=y*f,U=y*b;return[(1-2*(u+w))*a[0],2*(v+U)*a[0],2*(M-L)*a[0],0,2*(v-U)*a[1],(1-2*(p+w))*a[1],2*(A+g)*a[1],0,2*(M+L)*a[2],2*(A-g)*a[2],(1-2*(p+u))*a[2],0,t[0],t[1],t[2],1]}var It=t=>decodeURIComponent(t.split(/[\\/]/).pop()??t).toLowerCase();function $t(t,n=[]){let a=t.name.toLowerCase().split(".").pop();if(a==="glb")return Dn(t.data);if(a==="gltf")return Fn(t.data,n);throw new J(`Unsupported file type ".${a}". EcoPilot reads .glb and .gltf only.`)}function Dn(t){if(t.byteLength<20)throw new J("The file is too small to be a GLB model.");let n=new DataView(t);if(n.getUint32(0,!0)!==1179937895)throw new J('Not a valid GLB file (missing "glTF" header). If this is a different 3D format, convert it to GLB first.');let a=n.getUint32(4,!0);if(a!==2)throw new J(`GLB version ${a} is not supported (version 2 required).`);let o=Math.min(n.getUint32(8,!0),t.byteLength),i=12,r=null,s=null;for(;i+8<=o;){let l=n.getUint32(i,!0),m=n.getUint32(i+4,!0);if(i+=8,i+l>t.byteLength)throw new J("The GLB file is truncated or corrupted (chunk exceeds file size).");if(m===1313821514&&!r)try{r=JSON.parse(new TextDecoder().decode(new Uint8Array(t,i,l)))}catch{throw new J("The GLB JSON chunk could not be parsed.")}else m===5130562&&!s&&(s=t.slice(i,i+l));i+=l+(4-l%4)%4}if(!r)throw new J("The GLB file has no JSON chunk.");return Ut(r,[s],[])}function Fn(t,n){let a;try{a=JSON.parse(new TextDecoder().decode(new Uint8Array(t)))}catch{throw new J("The .gltf file is not valid JSON.")}let o=new Map(n.map(s=>[It(s.name),s.data])),i=[],r=(a.buffers??[]).map(s=>{if(!s.uri)return null;if(s.uri.startsWith("data:")){let m=s.uri.indexOf(",");if(m<0)throw new J("A buffer has a malformed data URI.");let f=s.uri.slice(0,m),b=s.uri.slice(m+1);if(!/;base64/i.test(f))throw new J("Only base64 data URIs are supported for embedded buffers.");try{let y=atob(b),p=new Uint8Array(y.length);for(let u=0;u<y.length;u++)p[u]=y.charCodeAt(u);return p.buffer}catch{throw new J("An embedded buffer is not valid base64.")}}let l=o.get(It(s.uri));return l||i.push(decodeURIComponent(s.uri)),l??null});if(i.length)throw new J(`This .gltf references external resources that were not provided: ${i.join(", ")}. Select the .gltf together with its .bin file(s), or export a single .glb.`);return Ut(a,r,[])}function Ut(t,n,a){let o=t.asset?.version;if(!o||!o.startsWith("2"))throw new J(`glTF asset version "${o??"missing"}" is not supported (2.x required).`);let i=t.extensionsRequired??[];if(i.includes("KHR_draco_mesh_compression"))throw new J("This model uses Draco mesh compression, which EcoPilot cannot decode. Re-export without compression.");if(i.includes("EXT_meshopt_compression"))throw new J("This model uses Meshopt compression, which EcoPilot cannot decode. Re-export without compression.");(t.extensionsUsed??[]).includes("KHR_draco_mesh_compression")&&!i.includes("KHR_draco_mesh_compression")&&a.push("Some geometry uses Draco compression and was skipped.");let r=t.accessors??[],s=t.bufferViews??[],l=t.meshes??[],m=t.nodes??[];if(l.length===0)throw new J("The file contains no meshes, so there is no geometry to display.");let f=(P,d=!1)=>{let S=r[P];if(!S)throw new J(`Accessor ${P} is missing.`);let W=Cn[S.componentType],F=Rn[S.type];if(!W||!F)throw new J(`Accessor ${P} has an unsupported type.`);S.sparse&&a.push("A sparse accessor was ignored; some geometry may be incomplete.");let G=S.count,$=d?new Uint32Array(G*F):new Float32Array(G*F);if(S.bufferView==null)return{data:$,ncomp:F,count:G};let Y=s[S.bufferView];if(!Y)throw new J(`Buffer view ${S.bufferView} is missing.`);let B=n[Y.buffer];if(!B)throw new J(`Buffer ${Y.buffer} has no data.`);let[V]=W,ee=Y.byteStride&&Y.byteStride>0?Y.byteStride:V*F,c=(Y.byteOffset??0)+(S.byteOffset??0),D=c+ee*(G-1)+V*F;if(G>0&&(D>B.byteLength||c<0))throw new J(`Accessor ${P} reads beyond the end of its buffer (file may be corrupted).`);let C=new DataView(B);for(let h=0;h<G;h++)for(let O=0;O<F;O++){let H=c+h*ee+O*V,k;switch(S.componentType){case 5120:k=C.getInt8(H),S.normalized&&(k=Math.max(k/127,-1));break;case 5121:k=C.getUint8(H),S.normalized&&(k/=255);break;case 5122:k=C.getInt16(H,!0),S.normalized&&(k=Math.max(k/32767,-1));break;case 5123:k=C.getUint16(H,!0),S.normalized&&(k/=65535);break;case 5125:k=C.getUint32(H,!0);break;default:k=C.getFloat32(H,!0)}$[h*F+O]=k}return{data:$,ncomp:F,count:G}},b=[],y=0,p=0,u=0,w=0,v={n:0},M=(P,d,S)=>{let W=l[P];W&&W.primitives.forEach((F,G)=>{let $=F.mode??4;if($<4){p++;return}if(F.extensions&&"KHR_draco_mesh_compression"in F.extensions){p++;return}let Y=F.attributes?.POSITION;if(Y==null){p++;return}let B=f(Y);if(B.ncomp!==3)throw new J("POSITION accessor must be VEC3.");let V=B.count;if(y+=V,y>An)throw new J("This model has too many vertices for browser-based inspection (limit 6 million). Simplify or decimate it first.");let ee=new Float32Array(V*3);for(let k=0;k<V;k++){let ne=B.data[k*3],Z=B.data[k*3+1],ae=B.data[k*3+2],Ne=d[0]*ne+d[4]*Z+d[8]*ae+d[12],ct=d[1]*ne+d[5]*Z+d[9]*ae+d[13],dt=d[2]*ne+d[6]*Z+d[10]*ae+d[14];if(!Number.isFinite(Ne+ct+dt)){w++,ee[k*3]=NaN;continue}ee[k*3]=Ne,ee[k*3+1]=ct,ee[k*3+2]=dt}let c;if(F.indices!=null)c=f(F.indices,!0).data;else{c=new Uint32Array(V);for(let k=0;k<V;k++)c[k]=k}let D=[],C=(k,ne,Z)=>{if(k>=V||ne>=V||Z>=V||isNaN(ee[k*3])||isNaN(ee[ne*3])||isNaN(ee[Z*3])){u++;return}D.push(k,ne,Z)};if($===4)for(let k=0;k+2<c.length;k+=3)C(c[k],c[k+1],c[k+2]);else if($===5)for(let k=0;k+2<c.length;k++)k%2===0?C(c[k],c[k+1],c[k+2]):C(c[k+1],c[k],c[k+2]);else if($===6)for(let k=1;k+1<c.length;k++)C(c[0],c[k],c[k+1]);if(D.length===0){p++;return}let O=(F.material!=null?t.materials?.[F.material]:void 0)?.pbrMetallicRoughness?.baseColorFactor,H=O&&O.length>=3?[O[0],O[1],O[2],O[3]??1]:[.78,.82,.88,1];b.push({name:W.primitives.length>1?`${S||W.name||`mesh ${P}`} · part ${G+1}`:S||W.name||`mesh ${P}`,positions:ee,indices:Uint32Array.from(D),color:H})})},A=(P,d,S,W)=>{if(S>64)throw new J("The node hierarchy is too deep (possible cycle).");if(W.has(P))throw new J("The node hierarchy contains a cycle.");let F=m[P];if(!F)return;v.n++;let G=F.matrix&&F.matrix.length===16?F.matrix.slice():Ln(F.translation??[0,0,0],F.rotation??[0,0,0,1],F.scale??[1,1,1]),$=En(d,G);F.mesh!=null&&M(F.mesh,$,F.name??"");let Y=new Set(W).add(P);for(let B of F.children??[])A(B,$,S+1,Y)},g=t.scene??0,L=t.scenes?.[g]?.nodes;if(L&&L.length)for(let P of L)A(P,_e(),0,new Set);else if(m.length){let P=new Set(m.flatMap(d=>d.children??[]));m.forEach((d,S)=>{P.has(S)||A(S,_e(),0,new Set)})}else l.forEach((P,d)=>M(d,_e(),""));if(b.length===0)throw new J("No drawable triangle geometry was found in this file.");p&&a.push(`${p} non-triangle or unsupported primitive(s) were skipped.`),u&&a.push(`${u} triangle(s) with invalid indices or coordinates were dropped.`),w&&a.push(`${w} vertex position(s) were not finite and were ignored.`);let U=t.textures?.length??0;U>0&&a.push(`${U} texture(s) are not displayed. Surfaces are drawn with flat base colours.`),(t.animations?.length??0)>0&&a.push("Animations are present but not played.");let T=[1/0,1/0,1/0],R=[-1/0,-1/0,-1/0],x=0,E=0;for(let P of b){let d=new Uint8Array(P.positions.length/3);for(let S=0;S<P.indices.length;S++)d[P.indices[S]]=1;for(let S=0;S<d.length;S++)if(d[S]){E++;for(let W=0;W<3;W++){let F=P.positions[S*3+W];F<T[W]&&(T[W]=F),F>R[W]&&(R[W]=F)}}x+=P.indices.length/3}return{meshes:b,stats:{meshes:b.length,nodes:v.n,vertices:E,triangles:x,materials:t.materials?.length??0,textures:U,animations:t.animations?.length??0},bboxMin:T,bboxMax:R,warnings:a,generator:t.asset?.generator??null}}K();function Wt(t,n="EcoPilot demo generator"){let a=t.length,o=new Float32Array(a*24*3),i=new Float32Array(a*24*3),r=new Uint16Array(a*36),s=[{n:[0,1,0],v:[[0,1,0],[0,1,1],[1,1,1],[1,1,0]]},{n:[0,-1,0],v:[[0,0,0],[1,0,0],[1,0,1],[0,0,1]]},{n:[1,0,0],v:[[1,0,0],[1,1,0],[1,1,1],[1,0,1]]},{n:[-1,0,0],v:[[0,0,0],[0,0,1],[0,1,1],[0,1,0]]},{n:[0,0,1],v:[[0,0,1],[1,0,1],[1,1,1],[0,1,1]]},{n:[0,0,-1],v:[[0,0,0],[0,1,0],[1,1,0],[1,0,0]]}];t.forEach((E,P)=>{s.forEach((d,S)=>{let W=P*24+S*4;d.v.forEach(($,Y)=>{let B=(W+Y)*3;o[B]=$[0]?E.max[0]:E.min[0],o[B+1]=$[1]?E.max[1]:E.min[1],o[B+2]=$[2]?E.max[2]:E.min[2],i[B]=d.n[0],i[B+1]=d.n[1],i[B+2]=d.n[2]});let F=P*36+S*6,G=S*4;r.set([G,G+1,G+2,G,G+2,G+3],F)})});let l=o.byteLength,m=i.byteLength,f=r.byteLength,b=l+m+f,y=new Uint8Array(b);y.set(new Uint8Array(o.buffer),0),y.set(new Uint8Array(i.buffer),l),y.set(new Uint8Array(r.buffer),l+m);let p=[],u=[{buffer:0,byteOffset:0,byteLength:l,target:34962},{buffer:0,byteOffset:l,byteLength:m,target:34962},{buffer:0,byteOffset:l+m,byteLength:f,target:34963}],w=[],v=[],M=[];t.forEach((E,P)=>{let d=E.min,S=E.max,W=p.length;p.push({bufferView:0,byteOffset:P*24*12,componentType:5126,count:24,type:"VEC3",min:d,max:S}),p.push({bufferView:1,byteOffset:P*24*12,componentType:5126,count:24,type:"VEC3"}),p.push({bufferView:2,byteOffset:P*36*2,componentType:5123,count:36,type:"SCALAR"}),M.push({name:E.name,pbrMetallicRoughness:{baseColorFactor:E.color,metallicFactor:0,roughnessFactor:.9}}),w.push({name:E.name,primitives:[{attributes:{POSITION:W,NORMAL:W+1},indices:W+2,material:P}]}),v.push({name:E.name,mesh:P})});let A={asset:{version:"2.0",generator:n},scene:0,scenes:[{nodes:v.map((E,P)=>P)}],nodes:v,meshes:w,materials:M,accessors:p,bufferViews:u,buffers:[{byteLength:b}]},g=new TextEncoder().encode(JSON.stringify(A)),L=(4-g.length%4)%4;if(L){let E=new Uint8Array(g.length+L);E.set(g),E.fill(32,g.length),g=E}let U=20+g.length+8+b,T=new ArrayBuffer(U),R=new DataView(T);R.setUint32(0,1179937895,!0),R.setUint32(4,2,!0),R.setUint32(8,U,!0),R.setUint32(12,g.length,!0),R.setUint32(16,1313821514,!0),new Uint8Array(T,20,g.length).set(g);let x=20+g.length;return R.setUint32(x,b,!0),R.setUint32(x+4,5130562,!0),new Uint8Array(T,x+8,b).set(y),T}function Kt(t=1){let o=r=>[r[0]*t,r[1]*t,r[2]*t],i=(r,s,l,m)=>({name:r,min:o([120+s[0],s[1],-80+s[2]]),max:o([120+l[0],l[1],-80+l[2]]),color:m});return[i("Ground pad",[-10,-.3,-10],[58,0,56],[.12,.17,.2,1]),i("Main block walls",[0,0,0],[48,9,26],[.86,.84,.78,1]),i("Main roof slab",[0,9,0],[48,9.4,26],[.58,.62,.68,1]),i("Rooftop plant (HVAC)",[6,9.42,4],[16,11.4,10],[.45,.5,.56,1]),i("Stair and lift core",[36,9.42,16],[42,12.4,21],[.7,.68,.64,1]),i("Water tank",[22,9.42,2],[26,11.9,6],[.4,.55,.7,1]),i("South wing",[0,0,26],[20,5,38],[.82,.8,.74,1]),i("South wing roof",[0,5,26],[20,5.3,38],[.58,.62,.68,1])]}function In(t,n,a){return{id:t,fileName:n,format:/\.(glb|gltf)$/i.test(n)?"gltf":"glb",sizeBytes:a,status:"loading",loadedAt:null,error:null,warnings:[],generator:null,stats:null,bboxMin:null,bboxMax:null,unitStatus:"unconfirmed",unitLabel:null,metresPerUnit:null,persisted:!1,isDemoGenerated:!1}}function et(t,n,a,o={}){let i=ye("mdl"),r=In(i,t.name,t.size);if(!/\.(glb|gltf)$/i.test(t.name)){a({type:"setModel",model:{...r,status:"error",error:"Unsupported file type. Choose a .glb file, or a .gltf with its .bin file(s)."}});return}if(t.size>Oe){a({type:"setModel",model:{...r,status:"error",error:`This file is ${(t.size/1048576).toFixed(0)} MB, above the 80 MB limit. Decimate or compress the model and try again.`}});return}a({type:"setModel",model:{...r,status:"loading",isDemoGenerated:!!o.demo}});let s=t.size>ze?["Large file: loading and inspection may be slow on this device."]:[];setTimeout(()=>{try{let l=$t({name:t.name,data:t.data},n.map(b=>({name:b.name,data:b.data})));se.set(i,l);let m=l.bboxMin.map(b=>Number(b.toFixed(6))),f=l.bboxMax.map(b=>Number(b.toFixed(6)));a({type:"setModel",model:{...r,status:"ready",loadedAt:new Date().toISOString(),warnings:[...s,...l.warnings],generator:l.generator,stats:l.stats,bboxMin:m,bboxMax:f,unitStatus:o.demo?"confirmed":"unconfirmed",unitLabel:o.demo?"metres (declared by the demo generator)":null,metresPerUnit:o.demo?1:null}})}catch(l){let m=l instanceof J?l.message:`The file could not be read (${l.message}).`;a({type:"setModel",model:{...r,status:"error",error:m}})}},30)}async function tt(t){return{name:t.name,data:await t.arrayBuffer(),size:t.size}}async function Tt(t){t({type:"demo"});let n=Wt(Kt());et({name:"al-noor-school-demo.glb",data:n,size:n.byteLength},[],t,{demo:!0})}var $n={complete:"ok",partial:"warn",missing:"idle",blocked:"bad",optional:"info"},Un={complete:"Complete",partial:"In progress",missing:"Not started",blocked:"Blocked",optional:"Optional"};function Vt(){let{state:t,dispatch:n}=oe(),{assessment:a,readiness:o,recs:i,reviewStatus:r}=le(),[s,l]=(0,Bt.useState)(!1),m=Me(t,a),f=m?.finance,b=t.building,y=!!t.model,p=a.issues.filter(u=>u.severity!=="info");return e("div",{className:"stack"},e("section",{className:"hero","aria-labelledby":"proj-t"},e("div",{className:"hero-main"},e("div",{className:"eyebrow"},"Command centre"),e("h1",{id:"proj-t"},t.project.name||"Untitled assessment"),e("p",{className:"lede"},b.buildingType==="school"?"School":""," · ",b.area||"Location not set",b.emirate?`, ${b.emirate}`:""," · Last updated ",he(t.project.updatedAt)),e("div",{className:"row-wrap"},e("a",{className:"btn btn-primary",href:`#${o.nextAction.route}`},o.nextAction.title),e("button",{className:"btn",onClick:()=>{Tt(n)},disabled:t.project.isDemo&&y},"Load demo school"),e("button",{className:`btn ${s?"btn-danger":"btn-ghost"}`,onClick:()=>{if(!s){l(!0),setTimeout(()=>l(!1),4e3);return}n({type:"reset"}),l(!1)}},s?"Click again to clear everything":"Start blank assessment"))),e("div",{className:"hero-side"},e("div",{className:"ring",style:{"--p":`${o.overallPct}`},"aria-label":`Overall readiness ${o.overallPct} percent`},e("span",{className:"tnum"},o.overallPct,"%")),e("div",{className:"ring-l"},"Overall readiness"),e("div",{className:"review-box"},e("div",{className:"review-t"},"Review status"),r==="not-reviewed"&&e(ie,{tone:"idle"},"Not reviewed"),r==="current"&&e(ie,{tone:"ok"},"Reviewed, no changes since"),r==="stale"&&e(ie,{tone:"warn"},"Changed since last review"),e("div",{className:"review-btn"},e("button",{className:"btn btn-sm",onClick:()=>n({type:"review"}),disabled:o.overallPct<100},"Mark as reviewed"),o.overallPct<100&&e("span",{className:"hint"},"Complete all required stages first.")),t.project.reviewedAt&&e("div",{className:"hint"},"Reviewed ",he(t.project.reviewedAt))))),e("section",{className:"stages","aria-label":"Assessment stages"},o.stages.map(u=>e("a",{key:u.key,className:`stage stage-${u.status}`,href:`#${u.route}`},e("div",{className:"stage-h"},e("span",{className:"stage-l"},u.label),e(ie,{tone:$n[u.status]},Un[u.status])),e("div",{className:"bar","aria-hidden":"true"},e("span",{style:{width:`${u.pct}%`}})),e("p",{className:"stage-d"},u.detail)))),e("section",{className:"metrics","aria-label":"Current metrics"},e(te,{label:"Usable candidate roof area",value:I(a.roof.usablePvAreaM2),unit:"m²",prov:a.roof.valid?"calculated":null,note:a.roof.valid?`of ${I(a.roof.grossAreaM2)} m² gross`:"Set roof dimensions"}),e(te,{label:"Modules placed",value:m?.panelCount!=null?I(m.panelCount):"—",prov:m?.panelCount!=null?"calculated":null,note:m?`${m.label}`:""}),e(te,{label:"Installed capacity",value:N(m?.capacityKwp??null,1),unit:"kWp",prov:m?.capacityKwp!=null?"calculated":null}),e(te,{label:"Annual generation",value:I(m?.annualGenKwh??null),unit:"kWh/yr",prov:m?.annualGenKwh!=null?"calculated":null,note:"Assumed yield, not a simulation"}),e(te,{label:"Generation ÷ demand",value:m?.ratioPct!=null?I(m.ratioPct):"—",unit:m?.ratioPct!=null?"%":void 0,prov:m?.ratioPct!=null?"calculated":null,note:m?.ratioNote==="missing-demand"?"Demand not entered":m?.ratioNote==="zero-demand"?"Demand is zero":void 0}),e(te,{label:"Simple payback",value:f?.status==="ok"?f.paybackYears!=null?N(f.paybackYears,1):"> horizon":"—",unit:f?.status==="ok"&&f.paybackYears!=null?"years":void 0,prov:f?.status==="ok"?"calculated":null,note:f?.status==="incomplete"?`Needs ${f.missing.length} input(s)`:void 0})),e("div",{className:"grid-2"},e(Q,{id:"missing",title:"Missing information and warnings",eyebrow:"Data quality"},o.missingBuilding.length===0&&p.length===0&&e("p",{className:"ok-line"},"No required inputs are missing and no warnings are open."),o.missingBuilding.length>0&&e(q,null,e("h3",{className:"sub"},"Still needed"),e("ul",{className:"list"},o.missingBuilding.map(u=>e("li",{key:u},e("a",{href:"#building"},u))))),f?.status==="incomplete"&&e(q,null,e("h3",{className:"sub"},"Financial inputs"),e("ul",{className:"list"},f.missing.map(u=>e("li",{key:u},e("a",{href:"#analysis"},u))))),p.length>0&&e(q,null,e("h3",{className:"sub"},"Warnings"),e("ul",{className:"list list-warn"},p.map(u=>e("li",{key:u.id},u.message))))),e(Q,{id:"next",title:"Recommended next action",eyebrow:"What to do"},e("h3",{className:"sub"},o.nextAction.title),e("p",null,o.nextAction.body),e("a",{className:"btn btn-sm",href:`#${o.nextAction.route}`},
